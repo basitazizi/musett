@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YourMuseTattoo — Sacred Ink Atelier</title>
+    <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Special+Elite&display=swap" rel="stylesheet">
+    <style>
+        /* ═══════════════════════════════ RESET & ROOT ═══════════════════════════════ */
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        :root{
+            --ink:#050505;
+            --deep:#0b0b0b;
+            --charcoal:#111;
+            --white:#f8f5f0;
+            --off:#d9d3c9;
+            --dim:rgba(248,245,240,.45);
+            --dimmer:rgba(248,245,240,.22);
+            --red:#9b1a1a;
+            --red2:#c0392b;
+            --red-bright:#e53030;
+            --red-glow:rgba(155,26,26,.4);
+        }
+        html{scroll-behavior:smooth}
+        body{
+            background:var(--ink);
+            color:var(--white);
+            font-family:'Cormorant Garamond',serif;
+            overflow-x:hidden;
+        }
+        body::after{
+            content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+            background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.04'/%3E%3C/svg%3E");
+            opacity:.35;
+        }
+
+        /* ═══════════════════════════════ NAVBAR ═══════════════════════════════ */
+        nav{
+            position:fixed;top:0;left:0;right:0;
+            height:64px;z-index:1000;
+            background:rgba(5,5,5,.97);
+            border-bottom:1px solid rgba(155,26,26,.25);
+            display:flex;align-items:center;
+            padding:0 40px;
+            gap:20px;
+        }
+        .nav-logo{
+            font-family:'Cinzel Decorative',serif;
+            font-size:12px;letter-spacing:2px;
+            color:var(--white);text-decoration:none;
+            white-space:nowrap;flex-shrink:0;
+            display:flex;align-items:center;gap:10px;
+        }
+        .nav-cross{
+            width:28px;height:28px;flex-shrink:0;
+            border:1px solid rgba(155,26,26,.6);
+            position:relative;display:flex;align-items:center;justify-content:center;
+        }
+        .nav-cross::before,.nav-cross::after{
+            content:'';position:absolute;background:rgba(155,26,26,.8);
+        }
+        .nav-cross::before{width:1px;height:15px}
+        .nav-cross::after{width:15px;height:1px}
+        .nav-links{
+            display:flex;align-items:center;
+            gap:0;list-style:none;
+            margin-left:auto;
+            flex-shrink:0;
+        }
+        .nav-links a{
+            font-family:'Cinzel',serif;font-size:9px;letter-spacing:2.5px;
+            text-transform:uppercase;color:var(--off);text-decoration:none;
+            transition:color .2s;padding:0 14px;white-space:nowrap;
+        }
+        .nav-links a:hover{color:var(--white)}
+        .nav-book{
+            font-family:'Cinzel',serif;font-size:9px;letter-spacing:2.5px;
+            text-transform:uppercase;color:var(--white);text-decoration:none;
+            border:1px solid rgba(155,26,26,.7);padding:9px 18px;
+            transition:all .3s;white-space:nowrap;flex-shrink:0;
+        }
+        .nav-book:hover{background:var(--red);border-color:var(--red);box-shadow:0 0 18px var(--red-glow)}
+
+        /* ═══════════════════════════════ HERO ═══════════════════════════════ */
+        .hero{
+            position:relative;min-height:100vh;
+            display:flex;align-items:center;justify-content:center;
+            overflow:hidden;padding-top:64px;text-align:center;
+        }
+        .hero-grid{
+            position:absolute;inset:0;pointer-events:none;
+            background-image:
+                    linear-gradient(rgba(248,245,240,.018) 1px,transparent 1px),
+                    linear-gradient(90deg,rgba(248,245,240,.018) 1px,transparent 1px);
+            background-size:55px 55px;
+        }
+        .hero-vignette{
+            position:absolute;inset:0;pointer-events:none;
+            background:radial-gradient(ellipse 80% 80% at 50% 50%,transparent 20%,rgba(5,5,5,.9) 100%);
+        }
+        .hero-glow-tl{position:absolute;top:0;left:0;width:45%;height:50%;pointer-events:none;
+            background:radial-gradient(ellipse at top left,rgba(155,26,26,.13) 0%,transparent 70%)}
+        .hero-glow-br{position:absolute;bottom:0;right:0;width:45%;height:50%;pointer-events:none;
+            background:radial-gradient(ellipse at bottom right,rgba(155,26,26,.10) 0%,transparent 70%)}
+
+        /* Flash art corners */
+        .flash-art{position:absolute;pointer-events:none}
+        .flash-tl{top:72px;left:20px;width:clamp(150px,18vw,260px);opacity:.22;animation:flt 9s ease-in-out infinite}
+        .flash-tr{top:60px;right:10px;width:clamp(160px,20vw,300px);opacity:.18;animation:flt 11s 1.5s ease-in-out infinite}
+        .flash-bl{bottom:20px;left:10px;width:clamp(140px,17vw,250px);opacity:.20;animation:flt 8s 3s ease-in-out infinite}
+        .flash-br{bottom:10px;right:15px;width:clamp(150px,18vw,270px);opacity:.19;animation:flt 10s .8s ease-in-out infinite}
+        @keyframes flt{0%,100%{transform:translateY(0) rotate(0)}40%{transform:translateY(-9px) rotate(.4deg)}70%{transform:translateY(5px) rotate(-.3deg)}}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+        .hero-center{
+            position:relative;z-index:10;
+            width:100%;max-width:700px;
+            padding:40px 24px;
+            display:flex;flex-direction:column;align-items:center;
+        }
+        .hero-eyebrow{
+            font-family:'IM Fell English',serif;font-size:10px;letter-spacing:5px;
+            color:var(--red2);display:flex;align-items:center;gap:16px;
+            margin-bottom:24px;animation:fadeUp .9s .1s both;
+        }
+        .hero-eyebrow::before,.hero-eyebrow::after{content:'';width:40px;height:1px;background:var(--red)}
+        .hero-eyebrow::after{transform:scaleX(-1)}
+        .hero-title{
+            font-family:'Cinzel Decorative',serif;
+            font-size:clamp(38px,8.5vw,112px);
+            font-weight:900;line-height:.92;color:var(--white);
+            margin-bottom:10px;letter-spacing:-1px;
+            animation:fadeUp .9s .25s both;
+            text-shadow:0 0 80px rgba(248,245,240,.06);
+        }
+        .hero-italic{
+            font-family:'IM Fell English',serif;font-style:italic;
+            font-size:clamp(13px,2vw,21px);color:var(--off);
+            letter-spacing:5px;margin-bottom:36px;
+            animation:fadeUp .9s .4s both;
+        }
+        .hero-orn{
+            display:flex;align-items:center;gap:12px;margin-bottom:28px;
+            animation:fadeUp .9s .52s both;
+        }
+        .orn-l{width:60px;height:1px;background:linear-gradient(to right,transparent,var(--red))}
+        .orn-l:last-child{transform:scaleX(-1)}
+        .orn-d{width:7px;height:7px;border:1px solid var(--red);transform:rotate(45deg)}
+        .orn-s{width:3px;height:3px;background:var(--red);transform:rotate(45deg)}
+        .hero-desc{
+            font-size:clamp(13px,1.8vw,15px);font-weight:300;font-style:italic;
+            line-height:1.9;color:var(--dim);max-width:460px;
+            margin-bottom:44px;animation:fadeUp .9s .65s both;
+        }
+        .hero-btns{
+            display:flex;flex-wrap:wrap;gap:14px;justify-content:center;
+            animation:fadeUp .9s .78s both;
+        }
+        .btn-main{
+            font-family:'Cinzel',serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;
+            color:var(--ink);background:var(--white);padding:14px 36px;
+            text-decoration:none;border:1px solid var(--white);
+            position:relative;overflow:hidden;transition:all .35s;display:inline-block;
+        }
+        .btn-main::before{
+            content:'';position:absolute;inset:0;background:var(--red);
+            transform:translateX(-101%);transition:transform .35s;
+        }
+        .btn-main:hover{color:var(--white);border-color:var(--red);box-shadow:0 0 28px var(--red-glow)}
+        .btn-main:hover::before{transform:translateX(0)}
+        .btn-main span{position:relative;z-index:1}
+        .btn-ghost{
+            font-family:'Cinzel',serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;
+            color:var(--dim);padding:14px 36px;text-decoration:none;
+            border:1px solid rgba(248,245,240,.18);transition:all .3s;
+        }
+        .btn-ghost:hover{border-color:var(--white);color:var(--white)}
+        .scroll-hint{
+            position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
+            display:flex;flex-direction:column;align-items:center;gap:7px;
+            font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;
+            color:var(--dimmer);z-index:10;animation:fadeUp .9s 1s both;
+        }
+        .scroll-bar{
+            width:1px;height:40px;
+            background:linear-gradient(to bottom,var(--red),transparent);
+            animation:sp 2s ease-in-out infinite;
+        }
+        @keyframes sp{0%,100%{opacity:.4}50%{opacity:1}}
+
+        /* ═══════════════════════════════ MARQUEE ═══════════════════════════════ */
+        .marquee-wrap{
+            overflow:hidden;white-space:nowrap;padding:15px 0;
+            background:var(--deep);
+            border-top:1px solid rgba(155,26,26,.3);
+            border-bottom:1px solid rgba(155,26,26,.3);
+        }
+        .marquee-inner{display:inline-block;animation:mq 28s linear infinite}
+        @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+        .mi{display:inline-block;font-family:'Cinzel',serif;font-size:9px;
+            letter-spacing:5px;text-transform:uppercase;color:var(--dimmer);padding:0 32px}
+        .md{display:inline-block;width:4px;height:4px;background:var(--red);
+            border-radius:50%;vertical-align:middle;margin:0 2px}
+
+        /* ═══════════════════════════════ SECTION SHARED ═══════════════════════════════ */
+        .sec-label{
+            font-family:'IM Fell English',serif;font-size:10px;letter-spacing:5px;
+            text-transform:uppercase;color:var(--red2);
+            display:flex;align-items:center;gap:10px;margin-bottom:16px;
+        }
+        .sec-label::before{content:'';width:22px;height:1px;background:var(--red)}
+        .sec-heading{
+            font-family:'Cinzel Decorative',serif;
+            font-size:clamp(24px,3.8vw,50px);font-weight:700;
+            line-height:1.1;color:var(--white);margin-bottom:10px;
+        }
+        .sec-heading em{font-family:'IM Fell English',serif;font-style:italic;font-weight:400;color:var(--off)}
+        .sec-roman{font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;color:rgba(155,26,26,.5);margin-bottom:44px}
+
+        /* ═══════════════════════════════ ANNA WINDOW ═══════════════════════════════ */
+        .anna-section{
+            padding:80px 0;background:var(--deep);
+            border-top:1px solid rgba(155,26,26,.15);
+            border-bottom:1px solid rgba(155,26,26,.15);
+            position:relative;overflow:hidden;
+        }
+        .anna-section::before{
+            content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+            width:1px;height:100%;
+            background:linear-gradient(to bottom,transparent,rgba(155,26,26,.2),transparent);
+        }
+        .anna-inner{
+            max-width:1140px;margin:0 auto;
+            display:grid;grid-template-columns:1fr 1fr;
+            gap:60px;align-items:center;padding:0 60px;
+        }
+        .anna-window-wrap{display:flex;justify-content:center;position:relative}
+        .anna-window-outer{position:relative;width:100%;max-width:400px}
+        .anna-window-outer::before{
+            content:'';position:absolute;top:-16px;left:-16px;right:-16px;bottom:-16px;
+            border:1px solid rgba(155,26,26,.22);pointer-events:none;
+        }
+        .anna-window-outer::after{
+            content:'';position:absolute;top:-6px;left:-6px;right:-6px;bottom:-6px;
+            border:1px solid rgba(248,245,240,.06);pointer-events:none;
+        }
+        .wc{position:absolute;width:18px;height:18px;border-color:var(--red);border-style:solid}
+        .wc.tl{top:-16px;left:-16px;border-width:1px 0 0 1px}
+        .wc.tr{top:-16px;right:-16px;border-width:1px 1px 0 0}
+        .wc.bl{bottom:-16px;left:-16px;border-width:0 0 1px 1px}
+        .wc.br{bottom:-16px;right:-16px;border-width:0 1px 1px 0}
+        .anna-arch-clip{
+            width:100%;position:relative;overflow:hidden;
+            clip-path:polygon(0% 100%,0% 36%,4% 26%,10% 17%,19% 9%,31% 3%,50% 0%,69% 3%,81% 9%,90% 17%,96% 26%,100% 36%,100% 100%);
+        }
+        .anna-arch-clip img{
+            width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center top;
+            display:block;filter:grayscale(10%) contrast(1.1);transition:transform .5s;
+        }
+        .anna-arch-clip:hover img{transform:scale(1.04)}
+        .anna-arch-clip::after{
+            content:'';position:absolute;inset:0;
+            background:linear-gradient(to top,rgba(155,26,26,.28) 0%,transparent 45%);
+            pointer-events:none;
+        }
+        .anna-arch-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
+        .anna-badge{
+            position:absolute;bottom:-26px;right:-26px;
+            width:100px;height:100px;background:var(--ink);
+            border:1px solid rgba(155,26,26,.55);
+            display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:5;
+        }
+        .anna-badge-num{font-family:'Cinzel Decorative',serif;font-size:26px;font-weight:900;color:var(--white);line-height:1}
+        .anna-badge-label{font-family:'Cinzel',serif;font-size:7px;letter-spacing:2px;color:var(--red2);text-transform:uppercase;margin-top:4px}
+        .anna-name{
+            font-family:'Cinzel Decorative',serif;
+            font-size:clamp(36px,5vw,66px);font-weight:900;
+            color:var(--white);line-height:.95;margin-bottom:14px;
+        }
+        .anna-name span{color:var(--red2)}
+        .anna-role{
+            font-family:'IM Fell English',serif;font-style:italic;
+            font-size:15px;letter-spacing:3px;color:var(--off);margin-bottom:24px;
+            display:flex;align-items:center;gap:10px;
+        }
+        .anna-role::before{content:'';width:24px;height:1px;background:var(--red)}
+        .anna-bio{font-size:14px;font-weight:300;font-style:italic;line-height:1.95;color:var(--dim);margin-bottom:12px}
+        .anna-stats{
+            display:flex;gap:0;margin:28px 0 32px;
+            border:1px solid rgba(248,245,240,.07);
+        }
+        .anna-stat{flex:1;padding:18px 20px;border-right:1px solid rgba(248,245,240,.07)}
+        .anna-stat:last-child{border-right:none}
+        .anna-stat-num{font-family:'Cinzel Decorative',serif;font-size:22px;color:var(--white);line-height:1;margin-bottom:4px}
+        .anna-stat-num span{font-size:12px;color:var(--red2)}
+        .anna-stat-label{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--dimmer)}
+
+        /* ═══════════════════════════════ ARTIST SECTION ═══════════════════════════════ */
+        .artist-section{
+            padding:80px 60px;
+            display:grid;grid-template-columns:1fr 1fr;
+            gap:70px;align-items:center;
+            position:relative;overflow:hidden;
+        }
+        .artist-section::after{
+            content:'';position:absolute;left:0;right:0;bottom:0;height:1px;
+            background:linear-gradient(to right,transparent,rgba(155,26,26,.28),transparent);
+        }
+        .large-art-wrap{position:relative;display:flex;align-items:center;justify-content:center}
+        .large-art-frame{position:relative;width:100%;max-width:460px}
+        .large-art-frame::before{
+            content:'';position:absolute;top:-10px;left:-10px;
+            width:44px;height:44px;
+            border-top:1px solid rgba(155,26,26,.7);border-left:1px solid rgba(155,26,26,.7);
+        }
+        .large-art-frame::after{
+            content:'';position:absolute;bottom:-10px;right:-10px;
+            width:44px;height:44px;
+            border-bottom:1px solid rgba(155,26,26,.7);border-right:1px solid rgba(155,26,26,.7);
+        }
+        .large-art-svg{width:100%;display:block}
+        .large-badge{
+            position:absolute;bottom:-24px;right:-24px;
+            width:100px;height:100px;background:var(--ink);
+            border:1px solid rgba(155,26,26,.5);
+            display:flex;flex-direction:column;align-items:center;justify-content:center;
+        }
+        .large-badge-num{font-family:'Cinzel Decorative',serif;font-size:24px;color:var(--white);line-height:1}
+        .large-badge-label{font-family:'Cinzel',serif;font-size:7px;letter-spacing:2px;color:var(--red2);text-transform:uppercase;margin-top:4px}
+        .artist-quote{
+            font-family:'IM Fell English',serif;font-style:italic;
+            font-size:clamp(18px,2.4vw,28px);line-height:1.55;
+            color:var(--white);margin-bottom:22px;
+        }
+        .artist-quote::before{
+            content:'\201C';font-size:56px;line-height:.35;
+            color:var(--red);display:block;margin-bottom:10px;font-style:normal;
+        }
+        .artist-name-tag{font-family:'Cinzel',serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--off);margin-bottom:5px}
+        .artist-role-tag{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:var(--red2);margin-bottom:28px}
+        .artist-body{font-size:14px;font-weight:300;font-style:italic;line-height:1.9;color:var(--dim);margin-bottom:32px}
+
+        /* ═══════════════════════════════ SACRED WORKS / BOARD ═══════════════════════════════ */
+        .sacred-section{
+            padding:70px 0 80px;
+            background:#0c0b0b;
+            border-top:1px solid rgba(155,26,26,.15);
+        }
+        .sacred-header{text-align:center;padding:0 24px 50px}
+        .sacred-header .sec-label{justify-content:center}
+        .sacred-header .sec-label::before{display:none}
+        .board{
+            position:relative;width:100%;min-height:860px;
+            padding:30px 40px 70px;overflow:hidden;
+        }
+        .board::before{
+            content:'';position:absolute;inset:0;
+            background:radial-gradient(ellipse 80% 65% at 50% 50%,transparent 30%,rgba(8,6,6,.55) 100%);
+            pointer-events:none;
+        }
+        .polaroid{
+            position:absolute;background:#ede9e0;
+            padding:9px 9px 34px;
+            box-shadow:3px 7px 28px rgba(0,0,0,.85),0 1px 6px rgba(0,0,0,.6);
+            transition:transform .3s,box-shadow .3s;cursor:pointer;z-index:1;
+        }
+        .polaroid:hover{transform:scale(1.08) rotate(0deg) !important;
+            box-shadow:8px 14px 46px rgba(0,0,0,.9);z-index:20}
+        .p-img{width:170px;height:210px;overflow:hidden;background:#111;position:relative}
+        .p-img img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.05)}
+        .p-img::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.1) 0%,transparent 50%)}
+        .p-date{
+            display:block;margin-top:7px;text-align:center;
+            font-family:'Special Elite',monospace;font-size:10.5px;color:#2a2a2a;letter-spacing:.5px;
+        }
+        .tape{
+            position:absolute;pointer-events:none;z-index:10;
+            background:rgba(195,190,178,.52);border:1px solid rgba(175,170,158,.3);
+        }
+        .sticky{
+            position:absolute;z-index:15;background:#f5e542;
+            padding:9px 11px;font-family:'Special Elite',monospace;
+            font-size:9.5px;line-height:1.4;color:#1a1a1a;
+            box-shadow:2px 3px 7px rgba(0,0,0,.5);max-width:115px;
+        }
+        .sticky.rs{background:var(--red2);color:#fff}
+        /* "On The Board" heading style */
+        .board-title{
+            font-family:'IM Fell English',serif;font-style:italic;
+            font-size:clamp(32px,5vw,58px);color:var(--white);
+            text-align:center;padding:0 24px 8px;
+            display:block;letter-spacing:-0.5px;
+        }
+
+        /* ═══════════════════════════════ BOOKING CTA ═══════════════════════════════ */
+        .booking-cta{
+            padding:100px 40px;text-align:center;
+            position:relative;overflow:hidden;background:var(--ink);
+            border-top:1px solid rgba(155,26,26,.25);
+        }
+        .booking-cta::before,.booking-cta::after{
+            content:'';position:absolute;left:0;right:0;height:1px;
+            background:linear-gradient(to right,transparent,rgba(155,26,26,.4),transparent);
+        }
+        .booking-cta::before{top:0}.booking-cta::after{bottom:0}
+        .cta-art-l,.cta-art-r{
+            position:absolute;top:50%;transform:translateY(-50%);
+            pointer-events:none;
+        }
+        .cta-art-l{left:-30px;width:clamp(180px,22vw,320px);opacity:.09}
+        .cta-art-r{right:-30px;width:clamp(180px,22vw,320px);opacity:.09;transform:translateY(-50%) scaleX(-1)}
+        .booking-numeral{
+            font-family:'Cinzel Decorative',serif;font-size:10px;letter-spacing:6px;
+            color:var(--red2);display:block;margin-bottom:22px;
+        }
+        .booking-title{
+            font-family:'Cinzel Decorative',serif;
+            font-size:clamp(30px,5.5vw,70px);font-weight:900;
+            color:var(--white);margin-bottom:16px;line-height:1;
+        }
+        .booking-sub{
+            font-family:'IM Fell English',serif;font-style:italic;
+            font-size:clamp(14px,2vw,19px);color:var(--dim);
+            max-width:440px;margin:0 auto 46px;line-height:1.75;
+        }
+        .booking-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+        /* ═══════════════════════════════ FOOTER ═══════════════════════════════ */
+        footer{
+            background:#020202;border-top:1px solid rgba(155,26,26,.2);
+            padding:56px 60px 28px;
+        }
+        .footer-top{
+            display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+            gap:48px;padding-bottom:44px;
+            border-bottom:1px solid rgba(248,245,240,.05);margin-bottom:28px;
+        }
+        .footer-brand-name{
+            font-family:'Cinzel Decorative',serif;font-size:12px;letter-spacing:3px;
+            color:var(--white);display:block;margin-bottom:12px;
+        }
+        .footer-brand-desc{
+            font-size:13px;font-weight:300;font-style:italic;
+            line-height:1.8;color:var(--dimmer);max-width:260px;margin-bottom:20px;
+        }
+        .footer-social{display:flex;gap:8px}
+        .footer-social a{
+            width:32px;height:32px;border:1px solid rgba(155,26,26,.35);
+            display:flex;align-items:center;justify-content:center;
+            font-family:'Cinzel',serif;font-size:9px;
+            color:var(--dimmer);text-decoration:none;transition:all .3s;
+        }
+        .footer-social a:hover{border-color:var(--red);color:var(--white);background:rgba(155,26,26,.2)}
+        .footer-col-title{
+            font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:3.5px;
+            text-transform:uppercase;color:var(--red2);margin-bottom:16px;
+            padding-bottom:8px;border-bottom:1px solid rgba(155,26,26,.2);
+        }
+        .footer-links{list-style:none;display:flex;flex-direction:column;gap:10px}
+        .footer-links a{
+            font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:300;
+            color:var(--dimmer);text-decoration:none;transition:color .2s;
+        }
+        .footer-links a:hover{color:var(--white)}
+        .footer-bottom{
+            display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;
+            font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:2.5px;
+            color:rgba(248,245,240,.18);
+        }
+
+        /* ═══════════════════════════════════════════════════
+           MOBILE RESPONSIVE — phones first
+        ═══════════════════════════════════════════════════ */
+        @media(max-width:900px){
+            /* Nav stays fixed, no dropdown, just compact */
+            nav{padding:0 16px;height:58px;gap:10px}
+            .nav-logo{font-size:10px;letter-spacing:1.5px;gap:8px}
+            .nav-logo-cross{width:22px;height:22px}
+            .nav-logo-cross::before{height:12px}
+            .nav-logo-cross::after{width:12px}
+            /* Compress nav links on tablet */
+            .nav-links a{font-size:8px;letter-spacing:1.5px;padding:0 8px}
+            .nav-book{font-size:8px;letter-spacing:1.5px;padding:7px 12px}
+        }
+        @media(max-width:680px){
+            /* Nav: logo + book button only, hide middle links */
+            nav{padding:0 14px;height:54px;gap:8px}
+            .nav-logo{font-size:9.5px;letter-spacing:1px}
+            .nav-links{display:none}
+            .nav-book{font-size:8.5px;letter-spacing:2px;padding:8px 14px;margin-left:auto}
+
+            /* Hero */
+            .hero{min-height:100svh;padding-top:54px}
+            .hero-title{font-size:clamp(34px,11vw,56px);letter-spacing:-0.5px}
+            .hero-desc{font-size:13px;padding:0 8px}
+            .flash-tl,.flash-bl{width:clamp(100px,30vw,160px)}
+            .flash-tr,.flash-br{width:clamp(110px,32vw,175px)}
+            .scroll-hint{display:none}
+
+            /* Anna section stacks */
+            .anna-inner{
+                grid-template-columns:1fr;
+                gap:50px;padding:0 20px;
+            }
+            .anna-window-outer{max-width:300px;margin:0 auto}
+            .anna-name{font-size:clamp(34px,10vw,52px)}
+            .anna-stats{gap:0}
+            .anna-stat{padding:14px 12px}
+            .anna-stat-num{font-size:18px}
+
+            /* Artist section stacks */
+            .artist-section{
+                grid-template-columns:1fr;
+                gap:50px;padding:60px 24px;
+            }
+            .large-art-frame{max-width:300px;margin:0 auto}
+
+            /* Board — polaroids use relative/block layout on mobile */
+            .board{
+                min-height:auto;
+                padding:20px 16px 40px;
+                display:flex;flex-direction:column;
+                gap:20px;align-items:center;
+            }
+            .board::before{display:none}
+            .polaroid{
+                position:relative !important;
+                top:auto !important;left:auto !important;right:auto !important;bottom:auto !important;
+                transform:none !important;
+                display:inline-block;
+                margin:0;
+            }
+            .polaroid:hover{transform:scale(1.03) !important}
+            .sticky,.tape{display:none}
+
+            /* Footer stacks */
+            .footer-top{grid-template-columns:1fr 1fr;gap:28px}
+            footer{padding:44px 20px 24px}
+            .footer-bottom{font-size:7.5px}
+
+            /* Booking */
+            .booking-cta{padding:70px 20px}
+            .cta-art-l,.cta-art-r{opacity:.05;width:140px}
+        }
+        @media(max-width:420px){
+            .hero-title{font-size:clamp(30px,13vw,46px)}
+            .hero-italic{font-size:12px;letter-spacing:3px}
+            .anna-inner{padding:0 16px}
+            .anna-stats{flex-direction:column}
+            .anna-stat{border-right:none;border-bottom:1px solid rgba(248,245,240,.07)}
+            .footer-top{grid-template-columns:1fr}
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══════════════ NAV ══════════════ -->
+<nav>
+    <a href="#" class="nav-logo">
+        <div class="nav-cross"></div>
+        YourMuseTattoo
+    </a>
+    <ul class="nav-links">
+        <li><a href="#">Studio</a></li>
+        <li><a href="#">Artists</a></li>
+        <li><a href="#">Portfolio</a></li>
+        <li><a href="#">Aftercare</a></li>
+    </ul>
+    <a href="#" class="nav-book">Book Now</a>
+</nav>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-glow-tl"></div>
+    <div class="hero-glow-br"></div>
+
+    <!-- TL: DETAILED ROSE — layered petals, thorns, leaves -->
+    <svg class="flash-art flash-tl" viewBox="0 0 260 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer petal ring -->
+        <path d="M130 58 C108 44 80 50 68 67 C56 84 60 107 76 118" stroke="white" stroke-width="1.4"/>
+        <path d="M130 58 C152 44 180 50 192 67 C204 84 200 107 184 118" stroke="white" stroke-width="1.4"/>
+        <path d="M76 118 C60 133 57 155 67 170 C77 185 96 190 112 185" stroke="white" stroke-width="1.4"/>
+        <path d="M184 118 C200 133 203 155 193 170 C183 185 164 190 148 185" stroke="white" stroke-width="1.4"/>
+        <path d="M112 185 C119 200 127 206 130 208 C133 206 141 200 148 185" stroke="white" stroke-width="1.4"/>
+        <!-- Red accent petal hint -->
+        <path d="M130 58 C125 66 122 76 124 85" stroke="rgba(155,26,26,.8)" stroke-width="0.7"/>
+        <!-- Mid petals -->
+        <path d="M130 72 C113 64 98 69 92 82 C86 95 90 110 102 116" stroke="white" stroke-width="1.1"/>
+        <path d="M130 72 C147 64 162 69 168 82 C174 95 170 110 158 116" stroke="white" stroke-width="1.1"/>
+        <path d="M102 116 C92 128 90 143 97 154 C104 165 117 170 128 166" stroke="white" stroke-width="1.1"/>
+        <path d="M158 116 C168 128 170 143 163 154 C156 165 143 170 132 166" stroke="white" stroke-width="1.1"/>
+        <path d="M128 166 C129 174 130 178 130 178 C130 178 131 174 132 166" stroke="white" stroke-width="1.1"/>
+        <!-- Inner cup -->
+        <path d="M130 84 C119 80 111 85 109 95 C107 105 112 115 121 118" stroke="white" stroke-width=".9"/>
+        <path d="M130 84 C141 80 149 85 151 95 C153 105 148 115 139 118" stroke="white" stroke-width=".9"/>
+        <path d="M121 118 C117 126 117 135 121 142 C125 149 130 151 130 151" stroke="white" stroke-width=".9"/>
+        <path d="M139 118 C143 126 143 135 139 142 C135 149 130 151 130 151" stroke="white" stroke-width=".9"/>
+        <!-- Spiral centre -->
+        <path d="M130 96 C125 96 122 99 123 104 C124 109 128 111 131 110 C135 109 137 105 135 101 C133 97 130 96 130 96" stroke="white" stroke-width=".7"/>
+        <circle cx="130" cy="104" r="3" stroke="white" stroke-width=".7"/>
+        <!-- Stamens -->
+        <path d="M126 90 L124 84 M130 89 L130 83 M134 90 L136 84" stroke="white" stroke-width=".6" opacity=".7"/>
+        <!-- Sepal -->
+        <path d="M120 178 C118 186 120 194 124 196 M130 178 L130 200 M140 178 C142 186 140 194 136 196" stroke="white" stroke-width=".9"/>
+        <!-- Stem with curve -->
+        <path d="M130 200 C127 218 122 238 118 258 C116 272 118 284 120 295" stroke="white" stroke-width="1.3"/>
+        <!-- Thorns -->
+        <path d="M125 216 L110 208 M122 232 L108 228 M120 250 L106 248" stroke="white" stroke-width="1.1"/>
+        <!-- Leaf 1 with vein -->
+        <path d="M120 240 C104 230 94 212 100 198 C108 214 118 230 120 240Z" stroke="white" stroke-width="1"/>
+        <path d="M120 240 C112 230 108 216 111 204" stroke="white" stroke-width=".4" opacity=".5"/>
+        <path d="M114 238 C110 232 108 224 110 218" stroke="white" stroke-width=".3" opacity=".35"/>
+        <!-- Leaf 2 -->
+        <path d="M122 260 C108 254 100 238 106 224 C110 238 118 252 122 260Z" stroke="white" stroke-width="1"/>
+        <path d="M122 260 C116 252 113 240 115 230" stroke="white" stroke-width=".4" opacity=".5"/>
+        <!-- Small bud side -->
+        <path d="M76 80 C70 68 72 57 79 53 C81 64 80 74 76 80Z" stroke="white" stroke-width=".9"/>
+        <path d="M76 80 C82 68 82 57 75 53" stroke="white" stroke-width=".8"/>
+        <path d="M76 80 C73 90 76 100 82 104" stroke="white" stroke-width=".8"/>
+        <!-- Stars and sparkles -->
+        <path d="M44 48 L46 56 L54 54 L46 62 L44 70 L42 62 L34 54 L42 56Z" stroke="white" stroke-width=".7"/>
+        <path d="M194 42 L195.5 47 L201 46 L195.5 51 L194 56 L192.5 51 L187 46 L192.5 47Z" stroke="white" stroke-width=".6"/>
+        <circle cx="52" cy="140" r="2" stroke="white" stroke-width=".6"/>
+        <circle cx="208" cy="120" r="1.8" stroke="white" stroke-width=".6"/>
+        <circle cx="70" cy="200" r="1.5" stroke="rgba(155,26,26,.8)" stroke-width=".7"/>
+        <!-- Red dot accent -->
+        <circle cx="195" cy="172" r="2.5" fill="rgba(155,26,26,.6)"/>
+    </svg>
+
+    <!-- TR: DRAGON full body — serpentine with wing, scales, fire -->
+    <svg class="flash-art flash-tr" viewBox="0 0 300 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Main body serpentine -->
+        <path d="M238 22 C212 40 182 66 158 92 C134 118 116 148 94 172 C72 196 48 218 34 250 C22 274 22 302 34 328" stroke="white" stroke-width="1.9"/>
+        <path d="M244 28 C218 46 188 72 164 98 C140 124 122 154 100 178" stroke="white" stroke-width=".6" opacity=".4"/>
+        <!-- Head shape -->
+        <path d="M238 22 C257 10 279 15 283 30 C287 46 274 60 259 60 C246 60 235 50 234 37 C233 26 235 20 238 22Z" stroke="white" stroke-width="1.2"/>
+        <!-- Jaw secondary -->
+        <path d="M254 52 C261 59 268 63 273 58 C276 54 272 44 265 42" stroke="white" stroke-width="1"/>
+        <!-- Eye detailed -->
+        <ellipse cx="250" cy="28" rx="7" ry="6" stroke="white" stroke-width="1.1"/>
+        <ellipse cx="250" cy="28" rx="3" ry="4" stroke="white" stroke-width=".9"/>
+        <path d="M250 24 L250 32" stroke="white" stroke-width=".9"/>
+        <!-- Iris catch light -->
+        <circle cx="252" cy="26" r="1" fill="white" opacity=".6"/>
+        <!-- Brow ridge -->
+        <path d="M243 22 C246 17 252 15 258 18" stroke="white" stroke-width="1.1"/>
+        <!-- Horns pair -->
+        <path d="M240 18 C243 5 248 0 253 3" stroke="white" stroke-width="1.2"/>
+        <path d="M248 15 C252 3 258 -1 263 3" stroke="white" stroke-width="1.1"/>
+        <!-- Forked tongue -->
+        <path d="M272 56 L284 64 M272 56 L281 70" stroke="white" stroke-width="1"/>
+        <!-- Red glow at tongue -->
+        <path d="M272 56 L284 64" stroke="rgba(155,26,26,.6)" stroke-width=".8"/>
+        <path d="M272 56 L281 70" stroke="rgba(155,26,26,.6)" stroke-width=".8"/>
+        <!-- Dorsal spines row -->
+        <path d="M228 32 C223 19 218 14 214 18" stroke="white" stroke-width="1.1"/>
+        <path d="M216 44 C211 32 206 27 202 31" stroke="white" stroke-width="1"/>
+        <path d="M200 58 C195 46 190 41 186 45" stroke="white" stroke-width=".95"/>
+        <path d="M184 72 C179 60 174 55 170 59" stroke="white" stroke-width=".9"/>
+        <path d="M168 88 C163 76 158 71 154 75" stroke="white" stroke-width=".85"/>
+        <path d="M150 106 C145 94 140 89 136 93" stroke="white" stroke-width=".8"/>
+        <!-- Wing membrane detailed -->
+        <path d="M184 74 C168 52 158 32 164 16 C167 36 176 58 184 74" stroke="white" stroke-width="1.1"/>
+        <path d="M184 74 C196 50 202 28 196 12 C191 34 187 54 184 74" stroke="white" stroke-width="1"/>
+        <path d="M184 74 C207 54 218 35 210 16 C202 36 192 58 184 74" stroke="white" stroke-width=".9"/>
+        <!-- Wing ribs -->
+        <path d="M184 74 L165 20 M184 74 L194 14 M184 74 L208 20" stroke="white" stroke-width=".35" opacity=".45"/>
+        <!-- Scale diamond pattern -->
+        <path d="M208 58 C210 55 213.5 55 216 58 C213.5 61 210 61 208 58Z" stroke="white" stroke-width=".65"/>
+        <path d="M190 72 C192 69 195.5 69 198 72 C195.5 75 192 75 190 72Z" stroke="white" stroke-width=".65"/>
+        <path d="M172 90 C174 87 177.5 87 180 90 C177.5 93 174 93 172 90Z" stroke="white" stroke-width=".6"/>
+        <path d="M153 110 C155 107 158.5 107 161 110 C158.5 113 155 113 153 110Z" stroke="white" stroke-width=".55"/>
+        <path d="M136 132 C138 129 141.5 129 144 132 C141.5 135 138 135 136 132Z" stroke="white" stroke-width=".5"/>
+        <!-- Front claw -->
+        <path d="M82 182 C73 191 66 196 62 190 M80 175 C70 183 63 186 61 179 M79 168 C70 175 66 175 66 168" stroke="white" stroke-width="1"/>
+        <!-- Tail coil -->
+        <path d="M34 328 C24 347 26 366 39 370 C52 374 65 360 60 344 C56 330 44 327 34 328Z" stroke="white" stroke-width="1.1"/>
+        <path d="M38 348 C34 355 36 362 42 364 C48 366 53 360 50 354" stroke="white" stroke-width=".6" opacity=".5"/>
+        <!-- Fire breath red -->
+        <path d="M280 36 C294 24 302 14 298 25 C294 34 300 43 292 46" stroke="rgba(155,26,26,.9)" stroke-width=".9"/>
+        <path d="M278 43 C291 35 299 30 295 40 C291 48 296 56 288 56" stroke="rgba(155,26,26,.7)" stroke-width=".7"/>
+        <path d="M276 50 C287 46 294 43 290 50 C287 57 291 63 283 63" stroke="rgba(155,26,26,.5)" stroke-width=".55"/>
+        <!-- Red glow at eye -->
+        <circle cx="250" cy="28" r="8" stroke="rgba(155,26,26,.2)" stroke-width=".5" opacity=".8"/>
+        <!-- Stars -->
+        <path d="M52 72 L54 80 L62 78 L54 86 L52 94 L50 86 L42 78 L50 80Z" stroke="white" stroke-width=".7"/>
+        <circle cx="110" cy="46" r="2.2" stroke="white" stroke-width=".6"/>
+        <circle cx="30" cy="158" r="1.8" stroke="white" stroke-width=".6"/>
+        <circle cx="260" cy="188" r="2" stroke="rgba(155,26,26,.7)" stroke-width=".7"/>
+    </svg>
+
+    <!-- BL: PEONY with stamens, multiple petal layers -->
+    <svg class="flash-art flash-bl" viewBox="0 0 250 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer ring petals -->
+        <path d="M125 72 C104 57 78 61 66 78 C54 95 58 120 74 132" stroke="white" stroke-width="1.4"/>
+        <path d="M125 72 C146 57 172 61 184 78 C196 95 192 120 176 132" stroke="white" stroke-width="1.4"/>
+        <path d="M74 132 C58 148 55 170 65 186 C75 202 94 208 110 203" stroke="white" stroke-width="1.4"/>
+        <path d="M176 132 C192 148 195 170 185 186 C175 202 156 208 140 203" stroke="white" stroke-width="1.4"/>
+        <path d="M110 203 C117 217 124 222 125 224 C126 222 133 217 140 203" stroke="white" stroke-width="1.4"/>
+        <!-- Layer 2 petals -->
+        <path d="M125 82 C109 74 94 78 88 91 C82 104 87 119 99 125" stroke="white" stroke-width="1.1"/>
+        <path d="M125 82 C141 74 156 78 162 91 C168 104 163 119 151 125" stroke="white" stroke-width="1.1"/>
+        <path d="M99 125 C89 136 88 152 95 163 C102 174 116 178 126 175" stroke="white" stroke-width="1.1"/>
+        <path d="M151 125 C161 136 162 152 155 163 C148 174 134 178 124 175" stroke="white" stroke-width="1.1"/>
+        <path d="M126 175 C126 182 125 186 125 186 C125 186 124 182 124 175" stroke="white" stroke-width="1.1"/>
+        <!-- Layer 3 inner -->
+        <path d="M125 95 C115 89 105 93 102 103 C99 113 104 123 113 127" stroke="white" stroke-width=".9"/>
+        <path d="M125 95 C135 89 145 93 148 103 C151 113 146 123 137 127" stroke="white" stroke-width=".9"/>
+        <path d="M113 127 C108 136 108 146 113 154 C118 162 125 164 125 164" stroke="white" stroke-width=".9"/>
+        <path d="M137 127 C142 136 142 146 137 154 C132 162 125 164 125 164" stroke="white" stroke-width=".9"/>
+        <!-- Innermost ruffled petals -->
+        <path d="M125 108 C119 104 115 107 115 113 C115 119 119 123 125 124" stroke="white" stroke-width=".75"/>
+        <path d="M125 108 C131 104 135 107 135 113 C135 119 131 123 125 124" stroke="white" stroke-width=".75"/>
+        <!-- Stamen cluster -->
+        <circle cx="125" cy="124" r="11" stroke="white" stroke-width=".8"/>
+        <circle cx="125" cy="124" r="5" stroke="white" stroke-width=".7"/>
+        <path d="M122 116 L121 111 M125 115 L125 110 M128 116 L129 111" stroke="white" stroke-width=".6"/>
+        <path d="M119 120 L115 118 M131 120 L135 118" stroke="white" stroke-width=".6"/>
+        <!-- Red stamens accent -->
+        <circle cx="122" cy="111" r="1.2" fill="rgba(155,26,26,.8)"/>
+        <circle cx="125" cy="110" r="1.2" fill="rgba(155,26,26,.8)"/>
+        <circle cx="128" cy="111" r="1.2" fill="rgba(155,26,26,.8)"/>
+        <!-- Stem -->
+        <path d="M125 224 C122 242 118 258 116 274" stroke="white" stroke-width="1.3"/>
+        <!-- Thorn -->
+        <path d="M121 238 L106 232" stroke="white" stroke-width="1"/>
+        <!-- Leaf with veins -->
+        <path d="M118 248 C102 240 92 222 98 208 C104 224 114 240 118 248Z" stroke="white" stroke-width="1"/>
+        <path d="M118 248 C110 238 107 224 109 214" stroke="white" stroke-width=".38" opacity=".5"/>
+        <path d="M114 244 L110 232" stroke="white" stroke-width=".3" opacity=".4"/>
+        <!-- Stars -->
+        <path d="M40 65 L42 72 L49 70 L42 77 L40 84 L38 77 L31 70 L38 72Z" stroke="white" stroke-width=".7"/>
+        <path d="M195 55 L196.5 60 L202 59 L196.5 64 L195 69 L193.5 64 L188 59 L193.5 60Z" stroke="white" stroke-width=".6"/>
+        <circle cx="52" cy="178" r="1.8" stroke="white" stroke-width=".6"/>
+        <circle cx="200" cy="165" r="2" stroke="rgba(155,26,26,.7)" stroke-width=".7"/>
+    </svg>
+
+    <!-- BR: LOTUS MANDALA geometric -->
+    <svg class="flash-art flash-br" viewBox="0 0 270 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer geometric ring -->
+        <circle cx="135" cy="148" r="88" stroke="white" stroke-width=".35" opacity=".18" stroke-dasharray="3 9"/>
+        <circle cx="135" cy="148" r="72" stroke="white" stroke-width=".3" opacity=".14"/>
+        <circle cx="135" cy="148" r="54" stroke="white" stroke-width=".4" opacity=".2" stroke-dasharray="2 6"/>
+        <!-- Radial tick marks -->
+        <path d="M135 60 L135 52 M135 236 L135 244 M47 148 L39 148 M223 148 L231 148" stroke="white" stroke-width=".5" opacity=".3"/>
+        <path d="M72 85 L66 79 M198 211 L204 217 M198 85 L204 79 M72 211 L66 217" stroke="white" stroke-width=".4" opacity=".25"/>
+        <!-- Lotus outer petals -->
+        <path d="M135 190 C118 174 108 152 110 132 C119 147 129 166 135 190Z" stroke="white" stroke-width="1.3"/>
+        <path d="M135 190 C152 174 162 152 160 132 C151 147 141 166 135 190Z" stroke="white" stroke-width="1.3"/>
+        <path d="M135 190 C114 176 98 157 96 137 C108 151 121 170 135 190Z" stroke="white" stroke-width="1.2"/>
+        <path d="M135 190 C156 176 172 157 174 137 C162 151 149 170 135 190Z" stroke="white" stroke-width="1.2"/>
+        <path d="M135 190 C110 180 93 162 90 142 C103 155 118 174 135 190Z" stroke="white" stroke-width="1"/>
+        <path d="M135 190 C160 180 177 162 180 142 C167 155 152 174 135 190Z" stroke="white" stroke-width="1"/>
+        <path d="M135 190 C104 182 86 166 84 146 C99 158 116 176 135 190Z" stroke="white" stroke-width=".85"/>
+        <path d="M135 190 C166 182 184 166 186 146 C171 158 154 176 135 190Z" stroke="white" stroke-width=".85"/>
+        <!-- Inner lotus petals -->
+        <path d="M135 190 C126 178 122 164 126 152 C130 163 133 175 135 190Z" stroke="white" stroke-width="1"/>
+        <path d="M135 190 C144 178 148 164 144 152 C140 163 137 175 135 190Z" stroke="white" stroke-width="1"/>
+        <path d="M135 190 C128 178 126 165 128 155 C131 165 133 177 135 190Z" stroke="white" stroke-width=".8"/>
+        <path d="M135 190 C142 178 144 165 142 155 C139 165 137 177 135 190Z" stroke="white" stroke-width=".8"/>
+        <!-- Centre -->
+        <circle cx="135" cy="165" r="10" stroke="white" stroke-width=".9"/>
+        <circle cx="135" cy="165" r="4" stroke="white" stroke-width=".85"/>
+        <circle cx="135" cy="165" r="1.5" fill="rgba(155,26,26,.8)"/>
+        <!-- Lotus pad -->
+        <path d="M103 202 C109 212 121 217 135 217 C149 217 161 212 167 202" stroke="white" stroke-width="1"/>
+        <path d="M98 207 C105 221 120 229 135 229 C150 229 165 221 172 207" stroke="white" stroke-width=".6" opacity=".4"/>
+        <!-- Water ripple lines -->
+        <path d="M76 228 C94 223 114 225 135 225 C156 225 176 223 194 228" stroke="white" stroke-width=".55" opacity=".28"/>
+        <path d="M84 238 C100 234 118 236 135 236 C152 236 170 234 186 238" stroke="white" stroke-width=".38" opacity=".18"/>
+        <!-- Geometric arrows on mandala ring -->
+        <path d="M135 76 L132 87 L135 84 L138 87Z" stroke="white" stroke-width=".7"/>
+        <path d="M135 220 L132 209 L135 212 L138 209Z" stroke="white" stroke-width=".7"/>
+        <path d="M59 148 L70 145 L67 148 L70 151Z" stroke="white" stroke-width=".7"/>
+        <path d="M211 148 L200 145 L203 148 L200 151Z" stroke="white" stroke-width=".7"/>
+        <!-- Red accent dots on ring -->
+        <circle cx="135" cy="76" r="2.5" fill="rgba(155,26,26,.7)"/>
+        <circle cx="135" cy="220" r="2.5" fill="rgba(155,26,26,.7)"/>
+        <circle cx="59" cy="148" r="2.5" fill="rgba(155,26,26,.7)"/>
+        <circle cx="211" cy="148" r="2.5" fill="rgba(155,26,26,.7)"/>
+        <!-- Stars -->
+        <path d="M64 110 L66 118 L74 116 L66 124 L64 132 L62 124 L54 116 L62 118Z" stroke="white" stroke-width=".65"/>
+        <path d="M192 100 L193.5 105 L199 104 L193.5 109 L192 114 L190.5 109 L185 104 L190.5 105Z" stroke="white" stroke-width=".6"/>
+        <circle cx="50" cy="185" r="1.8" stroke="white" stroke-width=".6"/>
+    </svg>
+
+    <div class="hero-center">
+        <div class="hero-eyebrow">· MMXXIV · Sacred Ink Atelier ·</div>
+        <h1 class="hero-title">YOURMUSE<br>TATTOO</h1>
+        <p class="hero-italic">Where the Body Becomes the Canvas</p>
+        <div class="hero-orn">
+            <div class="orn-l"></div>
+            <div class="orn-s"></div>
+            <div class="orn-d"></div>
+            <div class="orn-s"></div>
+            <div class="orn-l"></div>
+        </div>
+        <p class="hero-desc">
+            Bespoke tattoo artistry rooted in gothic tradition —<br>
+            fallen angels, ancient dragons, sacred flora &amp; the eternal dark.
+        </p>
+        <div class="hero-btns">
+            <a href="#" class="btn-main"><span>Book a Consultation</span></a>
+            <a href="#" class="btn-ghost">View Portfolio</a>
+        </div>
+    </div>
+    <div class="scroll-hint"><div class="scroll-bar"></div>DESCEND</div>
+</section>
+
+<!-- ══════════════ MARQUEE ══════════════ -->
+<div class="marquee-wrap">
+    <div class="marquee-inner">
+        <span class="mi">Fallen Angel</span><span class="md"></span>
+        <span class="mi">Sacred Dragon</span><span class="md"></span>
+        <span class="mi">Gothic Blackwork</span><span class="md"></span>
+        <span class="mi">Dark Mandala</span><span class="md"></span>
+        <span class="mi">Serpent &amp; Rose</span><span class="md"></span>
+        <span class="mi">Memento Mori</span><span class="md"></span>
+        <span class="mi">Fine Line Realism</span><span class="md"></span>
+        <span class="mi">Neo-Traditional</span><span class="md"></span>
+        <span class="mi">Fallen Angel</span><span class="md"></span>
+        <span class="mi">Sacred Dragon</span><span class="md"></span>
+        <span class="mi">Gothic Blackwork</span><span class="md"></span>
+        <span class="mi">Dark Mandala</span><span class="md"></span>
+        <span class="mi">Serpent &amp; Rose</span><span class="md"></span>
+        <span class="mi">Memento Mori</span><span class="md"></span>
+        <span class="mi">Fine Line Realism</span><span class="md"></span>
+        <span class="mi">Neo-Traditional</span><span class="md"></span>
+    </div>
+</div>
+
+<!-- ══════════════ ANNA — GOTHIC WINDOW ══════════════ -->
+<section class="anna-section">
+    <div class="anna-inner">
+        <div class="anna-window-wrap">
+            <div class="anna-window-outer">
+                <div class="wc tl"></div><div class="wc tr"></div>
+                <div class="wc bl"></div><div class="wc br"></div>
+                <div class="anna-arch-clip">
+                    <img
+                            src="https://images.unsplash.com/photo-1562962230-16e4623d36e6?w=700&h=900&fit=crop&auto=format"
+                            alt="Dragon tattoo on arm by Anna"
+                            onerror="this.style.cssText='width:100%;aspect-ratio:3/4;background:linear-gradient(160deg,#1a0505,#0a0a0a);display:block'">
+                    <svg class="anna-arch-svg" viewBox="0 0 400 533" fill="none" preserveAspectRatio="none">
+                        <path d="M0 533 L0 200 C0 130 48 76 100 44 C136 24 178 12 200 12 C222 12 264 24 300 44 C352 76 400 130 400 200 L400 533" stroke="rgba(155,26,26,.85)" stroke-width="2.5"/>
+                        <path d="M14 533 L14 205 C14 138 60 88 110 56 C145 36 182 24 200 24 C218 24 255 36 290 56 C340 88 386 138 386 205 L386 533" stroke="rgba(248,245,240,.1)" stroke-width="1"/>
+                        <!-- Keystone -->
+                        <path d="M188 6 L200 0 L212 6" stroke="rgba(155,26,26,.9)" stroke-width="1.5"/>
+                        <circle cx="200" cy="12" r="4" stroke="rgba(155,26,26,.9)" stroke-width="1.2"/>
+                        <!-- Column details -->
+                        <path d="M0 410 L18 410 M0 370 L12 370 M0 450 L18 450" stroke="rgba(248,245,240,.14)" stroke-width="1"/>
+                        <path d="M400 410 L382 410 M400 370 L388 370 M400 450 L382 450" stroke="rgba(248,245,240,.14)" stroke-width="1"/>
+                        <!-- Tracery -->
+                        <path d="M148 38 C138 54 132 70 140 82" stroke="rgba(248,245,240,.16)" stroke-width=".8"/>
+                        <path d="M252 38 C262 54 268 70 260 82" stroke="rgba(248,245,240,.16)" stroke-width=".8"/>
+                        <path d="M0 520 L400 520" stroke="rgba(155,26,26,.35)" stroke-width="1"/>
+                    </svg>
+                </div>
+                <div class="anna-badge">
+                    <span class="anna-badge-num">IX</span>
+                    <span class="anna-badge-label">Years</span>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="sec-label">Lead Artist · Chapter I</div>
+            <h2 class="anna-name">ANNA<span>.</span></h2>
+            <div class="anna-role">Master Ink Artist &amp; Co-Founder</div>
+            <p class="anna-bio">Born in Berlin, trained across Tokyo and Barcelona — Anna has spent nearly a decade transforming the body into living mythology. Her signature: dramatic blackwork dragons coiled with botanical precision, fallen angels rendered in hair-thin lines.</p>
+            <p class="anna-bio">Every piece Anna creates is one-of-a-kind. She accepts no duplicate commissions. When you sit with Anna, you're not getting a tattoo — you're receiving a relic.</p>
+            <div class="anna-stats">
+                <div class="anna-stat">
+                    <div class="anna-stat-num">847<span>+</span></div>
+                    <div class="anna-stat-label">Pieces Inked</div>
+                </div>
+                <div class="anna-stat">
+                    <div class="anna-stat-num">IX</div>
+                    <div class="anna-stat-label">Years Active</div>
+                </div>
+                <div class="anna-stat">
+                    <div class="anna-stat-num">12<span>+</span></div>
+                    <div class="anna-stat-label">Awards</div>
+                </div>
+            </div>
+            <a href="#" class="btn-main"><span>Book with Anna</span></a>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════ MASTER ARTIST ══════════════ -->
+<section class="artist-section">
+    <div class="large-art-wrap">
+        <div class="large-art-frame">
+            <svg class="large-art-svg" viewBox="0 0 460 540" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background rings -->
+                <circle cx="230" cy="265" r="190" stroke="rgba(155,26,26,.1)" stroke-width="1" stroke-dasharray="5 10"/>
+                <circle cx="230" cy="265" r="165" stroke="rgba(248,245,240,.05)" stroke-width="1"/>
+                <!-- Halo pointer top -->
+                <path d="M230 68 L230 22 M230 22 L226 34 M230 22 L234 34" stroke="rgba(155,26,26,.5)" stroke-width=".9"/>
+                <!-- Head -->
+                <circle cx="230" cy="112" r="42" stroke="white" stroke-width="1.2"/>
+                <!-- Broken halo -->
+                <path d="M186 84 A52 52 0 0 1 274 84" stroke="white" stroke-width="1.6" stroke-dasharray="10 7"/>
+                <!-- Halo break sparks red -->
+                <path d="M186 85 L178 76 M186 85 L177 87 M186 85 L181 76" stroke="rgba(155,26,26,.9)" stroke-width=".9"/>
+                <path d="M274 85 L282 76 M274 85 L283 87 M274 85 L279 76" stroke="rgba(155,26,26,.9)" stroke-width=".9"/>
+                <!-- Face -->
+                <path d="M212 106 C215 100 222 98 228 101" stroke="white" stroke-width=".9"/>
+                <path d="M232 106 C235 100 242 98 248 101" stroke="white" stroke-width=".9"/>
+                <ellipse cx="219" cy="107" rx="5" ry="5.5" stroke="white" stroke-width=".9"/>
+                <ellipse cx="241" cy="107" rx="5" ry="5.5" stroke="white" stroke-width=".9"/>
+                <path d="M219 104 L219 110 M241 104 L241 110" stroke="white" stroke-width=".5" opacity=".6"/>
+                <circle cx="221" cy="105" r="1" fill="white" opacity=".5"/>
+                <circle cx="243" cy="105" r="1" fill="white" opacity=".5"/>
+                <path d="M225 122 C228 127 232 127 235 122" stroke="white" stroke-width=".8"/>
+                <!-- Chest cross (red) -->
+                <path d="M223 212 L237 212 M230 205 L230 219" stroke="rgba(155,26,26,.85)" stroke-width="1.3"/>
+                <!-- Body torso -->
+                <path d="M215 154 L215 232 C214 260 211 286 214 316 C216 340 220 360 222 382" stroke="white" stroke-width="1.2"/>
+                <path d="M245 154 L245 232 C246 260 249 286 246 316 C244 340 240 360 238 382" stroke="white" stroke-width="1.2"/>
+                <!-- Fabric folds -->
+                <path d="M219 262 C213 286 211 308 213 332" stroke="white" stroke-width=".45" opacity=".4"/>
+                <path d="M241 262 C247 286 249 308 247 332" stroke="white" stroke-width=".45" opacity=".4"/>
+                <!-- LEFT WING -->
+                <path d="M212 178 C183 164 145 170 110 202 C78 232 54 270 38 314" stroke="white" stroke-width="1.6"/>
+                <path d="M212 178 C191 192 183 216 187 242" stroke="white" stroke-width="1.1"/>
+                <path d="M194 184 C171 196 163 220 165 246" stroke="white" stroke-width="1"/>
+                <path d="M174 192 C149 204 141 228 143 254" stroke="white" stroke-width=".95"/>
+                <path d="M154 206 C128 218 120 242 122 266" stroke="white" stroke-width=".9"/>
+                <path d="M134 222 C108 234 100 258 102 282" stroke="white" stroke-width=".85"/>
+                <path d="M114 242 C88 254 80 278 84 302" stroke="white" stroke-width=".8"/>
+                <!-- Left feather barbs -->
+                <path d="M212 178 L204 192 M208 182 L199 195 M204 186 L194 197" stroke="white" stroke-width=".5" opacity=".55"/>
+                <path d="M154 206 L146 220 M150 210 L141 223" stroke="white" stroke-width=".45" opacity=".5"/>
+                <!-- RIGHT WING -->
+                <path d="M248 178 C277 164 315 170 350 202 C382 232 406 270 422 314" stroke="white" stroke-width="1.6"/>
+                <path d="M248 178 C269 192 277 216 273 242" stroke="white" stroke-width="1.1"/>
+                <path d="M266 184 C289 196 297 220 295 246" stroke="white" stroke-width="1"/>
+                <path d="M286 192 C311 204 319 228 317 254" stroke="white" stroke-width=".95"/>
+                <path d="M306 206 C332 218 340 242 338 266" stroke="white" stroke-width=".9"/>
+                <path d="M326 222 C352 234 360 258 358 282" stroke="white" stroke-width=".85"/>
+                <path d="M346 242 C372 254 380 278 376 302" stroke="white" stroke-width=".8"/>
+                <!-- Right feather barbs -->
+                <path d="M248 178 L256 192 M252 182 L261 195 M256 186 L266 197" stroke="white" stroke-width=".5" opacity=".55"/>
+                <path d="M306 206 L314 220 M310 210 L319 223" stroke="white" stroke-width=".45" opacity=".5"/>
+                <!-- Hands -->
+                <path d="M218 230 C205 258 199 288 202 318 C204 340 210 360 212 378" stroke="white" stroke-width="1.1"/>
+                <path d="M242 230 C255 258 261 288 258 318 C256 340 250 360 248 378" stroke="white" stroke-width="1.1"/>
+                <!-- Finger lines -->
+                <path d="M212 378 L208 393 M212 378 L212 396 M212 378 L216 393" stroke="white" stroke-width=".8"/>
+                <path d="M248 378 L244 393 M248 378 L248 396 M248 378 L252 393" stroke="white" stroke-width=".8"/>
+                <!-- Hair -->
+                <path d="M194 138 C181 154 177 176 182 198 C186 180 192 160 194 138Z" stroke="white" stroke-width=".8"/>
+                <path d="M184 136 C167 158 163 186 168 210 C174 188 182 164 184 136Z" stroke="white" stroke-width=".7"/>
+                <path d="M266 138 C279 154 283 176 278 198 C274 180 268 160 266 138Z" stroke="white" stroke-width=".8"/>
+                <path d="M276 136 C293 158 297 186 292 210 C286 188 278 164 276 136Z" stroke="white" stroke-width=".7"/>
+                <!-- Robe hem -->
+                <path d="M214 382 C209 403 207 420 212 432 C218 447 226 458 230 468 C234 458 242 447 248 432 C253 420 251 403 246 382" stroke="white" stroke-width=".9"/>
+                <!-- RED Flames at base -->
+                <path d="M220 468 C213 487 211 506 216 520 C222 506 227 487 220 468Z" stroke="rgba(155,26,26,.95)" stroke-width="1.1"/>
+                <path d="M230 468 C223 489 221 512 226 528 C231 512 235 489 230 468Z" stroke="rgba(155,26,26,.95)" stroke-width="1.3"/>
+                <path d="M240 468 C247 487 249 506 244 520 C238 506 233 487 240 468Z" stroke="rgba(155,26,26,.95)" stroke-width="1.1"/>
+                <!-- Red shackle chain at wrists -->
+                <path d="M204 318 C201 327 203 334 210 335 C217 336 221 330 220 322 M240 318 C243 327 241 334 234 335 C227 336 223 330 224 322" stroke="rgba(155,26,26,.55)" stroke-width=".9"/>
+                <!-- Stars -->
+                <path d="M64 130 L66 140 L76 138 L66 148 L64 158 L62 148 L52 138 L62 140Z" stroke="white" stroke-width=".7"/>
+                <path d="M386 120 L388 128 L396 126 L388 134 L386 142 L384 134 L376 126 L384 128Z" stroke="white" stroke-width=".7"/>
+                <circle cx="48" cy="230" r="3" stroke="white" stroke-width=".6"/>
+                <circle cx="412" cy="220" r="3" stroke="white" stroke-width=".6"/>
+                <circle cx="96" cy="360" r="2.5" stroke="rgba(155,26,26,.7)" stroke-width=".6"/>
+                <circle cx="364" cy="350" r="2.5" stroke="rgba(155,26,26,.7)" stroke-width=".6"/>
+                <text x="218" y="296" font-size="7.5" fill="rgba(248,245,240,.13)" font-family="serif" letter-spacing="2">MMXXIV</text>
+            </svg>
+            <div class="large-badge">
+                <span class="large-badge-num">XII</span>
+                <span class="large-badge-label">Years</span>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="sec-label">Master Artist · Chapter II</div>
+        <div class="artist-quote">
+            Every wound is a canvas. Every scar tells a story. I give that story wings, fire, and the weight of eternity.
+        </div>
+        <div class="artist-name-tag">— Anna Voss</div>
+        <div class="artist-role-tag">Lead Artist &amp; Founder, YourMuseTattoo</div>
+        <p class="artist-body">
+            Trained in Berlin and Barcelona, Anna has spent twelve years translating the darkest mythologies
+            of the human soul into fine-line blackwork. Her specialty: fallen celestial beings and serpentine
+            god-beasts, each piece a one-of-a-kind ritual. No flash. No templates. No compromises.
+        </p>
+        <a href="#" class="btn-main"><span>Book with Anna</span></a>
+    </div>
+</section>
+
+<!-- ══════════════ SACRED WORKS — POLAROID BOARD ══════════════ -->
+<section class="sacred-section">
+    <div class="sacred-header">
+        <div class="sec-label" style="justify-content:center;margin-bottom:10px">Sacred Works</div>
+        <span class="board-title">On The Board</span>
+        <div class="sec-roman" style="margin-top:8px">· VIII · IX · X · XI · XII ·</div>
+    </div>
+
+    <div class="board">
+
+        <!-- P1 top-left -->
+        <div class="polaroid" style="top:18px;left:55px;transform:rotate(-4.5deg);z-index:2">
+            <div class="tape" style="width:58px;height:19px;top:-9px;left:18px;transform:rotate(-7deg)"></div>
+            <div class="tape" style="width:38px;height:15px;top:-7px;right:26px;transform:rotate(6deg)"></div>
+            <div class="p-img">
+                <img src="https://images.unsplash.com/photo-1562962230-16e4623d36e6?w=300&h=370&fit=crop&auto=format" alt="tattoo"
+                     onerror="this.parentNode.style.background='#1a0808';this.remove()">
+            </div>
+            <span class="p-date">04.02.2023</span>
+        </div>
+        <div class="sticky" style="top:12px;left:235px;transform:rotate(3deg);z-index:8">A lot of detail<br>went in this one!</div>
+
+        <!-- P2 top-centre -->
+        <div class="polaroid" style="top:55px;left:305px;transform:rotate(2.5deg);z-index:3">
+            <div class="tape" style="width:52px;height:18px;top:-9px;left:28px;transform:rotate(-4deg)"></div>
+            <div class="tape" style="width:42px;height:16px;top:-8px;right:22px;transform:rotate(7deg)"></div>
+            <div class="p-img">
+                <img src="https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=300&h=370&fit=crop&auto=format" alt="tattoo"
+                     onerror="this.parentNode.style.background='#1a0808';this.remove()">
+            </div>
+            <span class="p-date">20.10.2022</span>
+        </div>
+        <div class="sticky" style="top:148px;left:480px;transform:rotate(-4deg);z-index:8">Adam's<br>first tattoo!</div>
+
+        <!-- P3 top-right -->
+        <div class="polaroid" style="top:12px;right:48px;transform:rotate(3.5deg);z-index:2">
+            <div class="tape" style="width:54px;height:18px;top:-9px;left:22px;transform:rotate(-5deg)"></div>
+            <div class="tape" style="width:40px;height:15px;top:-7px;right:20px;transform:rotate(8deg)"></div>
+            <div class="p-img">
+                <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=300&h=370&fit=crop&auto=format" alt="tattoo"
+                     onerror="this.parentNode.style.background='#0d0808';this.remove()">
+            </div>
+            <span class="p-date">16.12.2023</span>
+        </div>
+
+        <!-- P4 mid-left -->
+        <div class="polaroid" style="top:300px;left:38px;transform:rotate(-2.5deg);z-index:4">
+            <div class="tape" style="width:60px;height:20px;top:-10px;left:14px;transform:rotate(-6deg)"></div>
+            <div class="tape" style="width:36px;height:14px;top:-7px;right:24px;transform:rotate(8deg)"></div>
+            <div class="p-img">
+                <img src="https://images.unsplash.com/photo-1543083477-4f785aeafaa9?w=300&h=370&fit=crop&auto=format" alt="tattoo"
+                     onerror="this.parentNode.style.background='#0d0a0a';this.remove()">
+            </div>
+            <span class="p-date">09.02.2023</span>
+        </div>
+
+        <!-- P5 mid-centre -->
+        <div class="polaroid" style="top:330px;left:312px;transform:rotate(-1deg);z-index:5">
+            <div class="tape" style="width:54px;height:17px;top:-8px;left:26px;transform:rotate(-6deg)"></div>
+            <div class="tape" style="width:42px;height:16px;top:-7px;right:22px;transform:rotate(5deg)"></div>
+            <div class="p-img">
+                <img src="https://images.unsplash.com/photo-1555708982-8645ec9ce3cc?w=300&h=370&fit=crop&auto=format" alt="tattoo"
+                     onerror="this.parentNode.style.background='#111';this.remove()">
+            </div>
+            <span class="p-date">27.06.2023</span>
+        </div>
+
+        <!-- P6 mid-right -->
+        <div class="polaroid" style="top:296px;right:44px;transform:rotate(4deg);z-index:3">
+            <div class="tape" style="width:50px;height:17px;top:-8px;left:20px;transform:rotate(-4deg)"></div>
+            <div class="tape" style="width:46px;height:16px;top:-7px;right:18px;transform:rotate(7deg)"></div>
+            <div class="p-img">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=370&fit=crop&auto=format" alt="tattoo"
+                     onerror="this.parentNode.style.background='#0d0d0d';this.remove()">
+            </div>
+            <span class="p-date">03.11.2022</span>
+        </div>
+
+        <!-- P7 bottom-left -->
+        <div class="polaroid" style="top:590px;left:50px;transform:rotate(-5deg);z-index:4">
+            <div class="tape" style="width:56px;height:19px;top:-9px;left:16px;transform:rotate(-6deg)"></div>
+            <div class="tape" style="width:40px;height:15px;top:-7px;right:22px;transform:rotate(8deg)"></div>
+            <div class="p-img">
+                <img src="https://images.unsplash.com/photo-1572687521175-e5b7e8a83dca?w=300&h=370&fit=crop&auto=format" alt="tattoo"
+                     onerror="this.parentNode.style.background='#0f0808';this.remove()">
+            </div>
+            <span class="p-date">23.01.2023</span>
+        </div>
+
+        <!-- P8 bottom-centre -->
+        <div class="polaroid" style="top:606px;left:305px;transform:rotate(2.5deg);z-index:3">
+            <div class="tape" style="width:52px;height:17px;top:-8px;left:24px;transform:rotate(-5deg);background:rgba(155,26,26,.5)"></div>
+            <div class="tape" style="width:43px;height:16px;top:-7px;right:20px;transform:rotate(6deg)"></div>
+            <div class="p-img">
+                <img src="https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=300&h=370&fit=crop&auto=format" alt="tattoo"
+                     onerror="this.parentNode.style.background='#1a1a1a';this.remove()">
+            </div>
+            <span class="p-date">28.10.2022</span>
+        </div>
+        <div class="sticky" style="top:558px;left:288px;transform:rotate(-5deg);z-index:10">For Maya<br>from Tokyo &lt;3</div>
+
+        <!-- P9 bottom-right -->
+        <div class="polaroid" style="top:592px;right:40px;transform:rotate(-3deg);z-index:2">
+            <div class="tape" style="width:58px;height:19px;top:-9px;left:18px;transform:rotate(-7deg)"></div>
+            <div class="tape" style="width:38px;height:14px;top:-6px;right:24px;transform:rotate(8deg)"></div>
+            <div class="p-img">
+                <img src="https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=300&h=370&fit=crop&auto=format" alt="tattoo"
+                     onerror="this.parentNode.style.background='#0d0d0d';this.remove()">
+            </div>
+            <span class="p-date">01.08.2022</span>
+        </div>
+        <div class="sticky rs" style="bottom:46px;right:240px;transform:rotate(4deg);z-index:10">Thank you<br>Ben for<br>trusting me!</div>
+
+    </div>
+</section>
+
+<!-- ══════════════ BOOKING CTA ══════════════ -->
+<section class="booking-cta">
+    <!-- CTA left art: Rose -->
+    <svg class="cta-art-l" viewBox="0 0 320 400" fill="none">
+        <path d="M160 72 C138 58 110 62 98 80 C86 98 90 122 108 134" stroke="white" stroke-width="1.4"/>
+        <path d="M160 72 C182 58 210 62 222 80 C234 98 230 122 212 134" stroke="white" stroke-width="1.4"/>
+        <path d="M108 134 C92 150 88 173 98 188 C108 203 126 208 144 204" stroke="white" stroke-width="1.4"/>
+        <path d="M212 134 C228 150 232 173 222 188 C212 203 194 208 176 204" stroke="white" stroke-width="1.4"/>
+        <path d="M144 204 C151 218 158 224 160 226 C162 224 169 218 176 204" stroke="white" stroke-width="1.4"/>
+        <path d="M160 85 C144 77 130 82 126 95 C122 108 126 122 138 128" stroke="white" stroke-width="1"/>
+        <path d="M160 85 C176 77 190 82 194 95 C198 108 194 122 182 128" stroke="white" stroke-width="1"/>
+        <circle cx="160" cy="146" r="14" stroke="white" stroke-width=".9"/>
+        <circle cx="160" cy="146" r="6" stroke="white" stroke-width=".8"/>
+        <circle cx="160" cy="146" r="2" fill="rgba(155,26,26,.8)"/>
+        <path d="M160 226 C156 244 150 262 148 280" stroke="white" stroke-width="1.3"/>
+        <path d="M153 244 L138 238 M150 260 L136 256" stroke="white" stroke-width="1"/>
+        <path d="M148 262 C132 254 120 236 128 220 C134 235 144 251 148 262Z" stroke="white" stroke-width="1"/>
+        <path d="M40 68 L42 76 L50 74 L42 82 L40 90 L38 82 L30 74 L38 76Z" stroke="white" stroke-width=".8"/>
+        <circle cx="38" cy="155" r="2.2" stroke="white" stroke-width=".6"/>
+        <circle cx="280" cy="65" r="2" stroke="rgba(155,26,26,.7)" stroke-width=".7"/>
+    </svg>
+
+    <!-- CTA right art: Dragon body -->
+    <svg class="cta-art-r" viewBox="0 0 320 400" fill="none">
+        <path d="M200 28 C174 46 146 70 122 95 C98 120 82 150 60 175 C40 198 20 224 10 258 C2 284 4 314 18 342" stroke="white" stroke-width="1.7"/>
+        <path d="M200 28 C218 16 240 20 244 36 C248 52 234 66 218 65 C204 64 196 50 200 35" stroke="white" stroke-width="1.1"/>
+        <path d="M202 24 L207 12 M211 22 L217 10" stroke="white" stroke-width=".9"/>
+        <ellipse cx="224" cy="34" rx="6.5" ry="5.5" stroke="white" stroke-width="1"/>
+        <path d="M188 40 C184 30 180 24 175 28 M170 55 C165 44 160 38 156 42 M152 72 C147 61 142 55 138 59" stroke="white" stroke-width=".8"/>
+        <path d="M177 46 C163 25 158 9 164 2 C167 20 173 35 177 46 M177 46 C192 25 198 9 192 2 C187 20 182 35 177 46" stroke="white" stroke-width=".9"/>
+        <path d="M170 62 C172 59 175.5 59 178 62 C175.5 65 172 65 170 62Z" stroke="white" stroke-width=".65"/>
+        <path d="M150 80 C152 77 155.5 77 158 80 C155.5 83 152 83 150 80Z" stroke="white" stroke-width=".6"/>
+        <path d="M130 100 C132 97 135.5 97 138 100 C135.5 103 132 103 130 100Z" stroke="white" stroke-width=".55"/>
+        <path d="M237 40 C250 28 258 18 254 28 C250 37 256 46 247 48" stroke="rgba(155,26,26,.9)" stroke-width=".9"/>
+        <path d="M235 47 C248 39 256 34 252 43 C248 51 252 59 244 59" stroke="rgba(155,26,26,.65)" stroke-width=".65"/>
+        <path d="M18 342 C8 362 10 382 24 386 C38 390 50 375 46 358 C42 343 30 340 18 342Z" stroke="white" stroke-width=".9"/>
+        <path d="M42 100 L44 108 L52 106 L44 114 L42 122 L40 114 L32 106 L40 108Z" stroke="white" stroke-width=".7"/>
+        <circle cx="290" cy="82" r="2.2" stroke="white" stroke-width=".65"/>
+    </svg>
+
+    <span class="booking-numeral">· YOURMUSE TATTOO · MMXXIV ·</span>
+    <h2 class="booking-title">Reserve Your<br>Sacred Session</h2>
+    <p class="booking-sub">Limited appointments available. Every piece begins with a conversation — let us discover the mythology written in your bones.</p>
+    <div class="booking-actions">
+        <a href="#" class="btn-main"><span>Book a Consultation</span></a>
+        <a href="#" class="btn-ghost">View Availability</a>
+    </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+    <div class="footer-top">
+        <div>
+            <span class="footer-brand-name">YourMuseTattoo</span>
+            <p class="footer-brand-desc">A sacred atelier for those who carry their mythology on their skin. Appointment only. No walk-ins. No compromises.</p>
+            <div class="footer-social">
+                <a href="#">IG</a><a href="#">TK</a><a href="#">FB</a><a href="#">✉</a>
+            </div>
+        </div>
+        <div>
+            <div class="footer-col-title">Navigate</div>
+            <ul class="footer-links">
+                <li><a href="#">Studio</a></li>
+                <li><a href="#">Artists</a></li>
+                <li><a href="#">Portfolio</a></li>
+                <li><a href="#">Aftercare</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+        <div>
+            <div class="footer-col-title">Styles</div>
+            <ul class="footer-links">
+                <li><a href="#">Fallen Angel</a></li>
+                <li><a href="#">Sacred Dragon</a></li>
+                <li><a href="#">Gothic Blackwork</a></li>
+                <li><a href="#">Memento Mori</a></li>
+                <li><a href="#">Fine Line</a></li>
+            </ul>
+        </div>
+        <div>
+            <div class="footer-col-title">Atelier</div>
+            <ul class="footer-links">
+                <li><a href="#">San Diego, CA</a></li>
+                <li><a href="#">By Appointment</a></li>
+                <li><a href="#">+1 (619) 000 0000</a></li>
+                <li><a href="#">ink@yourmusetattoo.com</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© MMXXIV YOURMUSE TATTOO · ALL RIGHTS RESERVED</span>
+        <span>· I · II · III · IV · V · VI ·</span>
+    </div>
+</footer>
+
+</body>
+</html>
