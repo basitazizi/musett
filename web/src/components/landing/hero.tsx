@@ -2,20 +2,21 @@ export default function Hero() {
   return (
     <section id="top" className="relative overflow-hidden">
       <div className="absolute inset-0" aria-hidden="true">
-        <div className="absolute inset-0 bg-[radial-gradient(900px_650px_at_50%_35%,rgba(139,0,0,0.18),transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(1200px_900px_at_50%_50%,rgba(0,0,0,0.2),rgba(0,0,0,0.9))]" />
+        <div className="absolute inset-0 bg-[radial-gradient(920px_660px_at_50%_34%,rgba(139,0,0,0.12),transparent_58%)]" />
+        <div className="absolute right-[6%] top-[10%] h-[34vh] w-[16%] bg-[linear-gradient(116deg,rgba(255,255,255,0.12),transparent_56%)] blur-2xl opacity-40" />
+        <div className="absolute inset-0 bg-[radial-gradient(1200px_900px_at_50%_50%,rgba(0,0,0,0.16),rgba(0,0,0,0.9))]" />
       </div>
 
-      <div className="relative mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-6xl flex-col items-center justify-center px-6 py-24 text-center sm:px-10">
+      <div className="relative mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-6xl flex-col items-center justify-center px-6 py-28 text-center sm:py-24 sm:px-10">
         <p className="font-[family-name:var(--font-accent)] text-[11px] tracking-[0.55em] text-[#8B0000]">
           SACRED INK ATELIER
         </p>
 
-        <h1 className="mt-5 font-[family-name:var(--font-display)] text-5xl leading-[0.88] tracking-tight text-[var(--paper)] sm:text-7xl">
+        <h1 className="mt-5 font-[family-name:var(--font-display)] text-5xl leading-[0.88] tracking-tight text-[var(--paper)] drop-shadow-[0_10px_38px_rgba(255,255,255,0.08)] sm:text-7xl">
           YourMuse Tattoo
         </h1>
 
-        <p className="mt-5 max-w-xl font-[family-name:var(--font-accent)] text-[15px] italic leading-7 text-[color:rgba(248,245,240,0.8)] sm:text-[16px]">
+        <p className="mt-5 max-w-xl font-[family-name:var(--font-accent)] text-[15px] italic leading-7 text-[color:rgba(248,245,240,0.82)] sm:text-[16px]">
           Cathedral-dark luxury for blackwork, fine line, and custom iconography.
           Precision first. Atmosphere always.
         </p>

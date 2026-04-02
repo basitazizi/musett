@@ -1,18 +1,20 @@
+import CathedralRoomFrame from "@/components/landing/cathedral-room-frame";
 import Hero from "@/components/landing/hero";
 import Marquee from "@/components/landing/marquee";
 import SiteNav from "@/components/landing/site-nav";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen overflow-hidden">
+      <CathedralRoomFrame />
       <SiteNav />
-      <main className="pt-16">
+      <main className="relative z-10 pt-16">
         <Hero />
         <Marquee />
 
         <section className="mx-auto w-full max-w-6xl px-6 pb-24 pt-16 sm:px-10">
           <div className="grid gap-6 md:grid-cols-3">
-            <div className="rounded-2xl border border-[#8B0000]/25 bg-black/45 p-7 backdrop-blur-[1px]">
+            <div className="rounded-2xl border border-[rgba(248,245,240,0.12)] bg-[rgba(8,8,8,0.48)] p-7 shadow-[0_20px_70px_rgba(0,0,0,0.35)] backdrop-blur-[2px]">
               <p className="font-[family-name:var(--font-caps)] text-[11px] tracking-[0.45em] text-[#8B0000]">
                 CRAFT
               </p>
@@ -25,8 +27,8 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-[color:rgba(248,245,240,0.14)] bg-black/35 p-7">
-              <p className="font-[family-name:var(--font-caps)] text-[11px] tracking-[0.45em] text-[color:rgba(248,245,240,0.55)]">
+            <div className="rounded-2xl border border-[rgba(248,245,240,0.12)] bg-[rgba(8,8,8,0.44)] p-7 shadow-[0_20px_70px_rgba(0,0,0,0.3)] backdrop-blur-[2px]">
+              <p className="font-[family-name:var(--font-caps)] text-[11px] tracking-[0.45em] text-[color:rgba(248,245,240,0.62)]">
                 EXPERIENCE
               </p>
               <h2 className="mt-4 font-[family-name:var(--font-display)] text-2xl tracking-tight">
@@ -38,7 +40,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-[#8B0000]/25 bg-black/45 p-7 backdrop-blur-[1px]">
+            <div className="rounded-2xl border border-[rgba(248,245,240,0.12)] bg-[rgba(8,8,8,0.48)] p-7 shadow-[0_20px_70px_rgba(0,0,0,0.35)] backdrop-blur-[2px]">
               <p className="font-[family-name:var(--font-caps)] text-[11px] tracking-[0.45em] text-[#8B0000]">
                 BOOKING
               </p>
@@ -56,4 +58,3 @@ export default function Home() {
     </div>
   );
 }
-
