@@ -46,14 +46,17 @@ export default function CathedralIntroOverlay({ onOpened }: Props) {
 
   useEffect(() => {
     if (phase !== "fading") return;
-    const ms = reduceMotion ? 10 : Math.round(FADE_OUT_S * 1000);
-    const t = window.setTimeout(() => {
-      if (openedOnceRef.current) return;
+    if (reduceMotion && !openedOnceRef.current) {
       openedOnceRef.current = true;
       onOpened?.();
-    }, ms);
-    return () => window.clearTimeout(t);
+    }
   }, [phase, reduceMotion, onOpened]);
+
+  const handleRootAnimationComplete = () => {
+    if (phase !== "fading" || openedOnceRef.current) return;
+    openedOnceRef.current = true;
+    onOpened?.();
+  };
 
   return (
     <>
@@ -69,6 +72,7 @@ export default function CathedralIntroOverlay({ onOpened }: Props) {
         initial={{ opacity: 1 }}
         animate={{ opacity: phase === "fading" ? 0 : 1 }}
         transition={{ duration: reduceMotion ? 0.01 : FADE_OUT_S, ease: "easeInOut" }}
+        onAnimationComplete={handleRootAnimationComplete}
       >
           <motion.div
             className="absolute inset-0 bg-black cathedral-vignette"

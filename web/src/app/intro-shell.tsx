@@ -2,9 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { markIntroDismissed, readIntroDismissed } from "./intro-session";
-import CathedralBorderOverlay from "@/components/intro/cathedral-border-overlay";
 import CathedralIntroOverlay from "@/components/intro/cathedral-intro-overlay";
-import DustParticles from "@/components/visual/dust-particles";
 
 export default function IntroShell({
   children,
@@ -21,8 +19,6 @@ export default function IntroShell({
   return (
     <>
       {!opened ? <CathedralIntroOverlay onOpened={handleOpened} /> : null}
-      <CathedralBorderOverlay visible={opened} />
-      <DustParticles visible={opened} />
       {children}
     </>
   );

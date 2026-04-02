@@ -1,6 +1,6 @@
 "use client";
 
-export const INTRO_SESSION_KEY = "yourmuse:introDismissed:v1";
+export const INTRO_SESSION_KEY = "yourmuse:introDismissed:v2";
 
 let introDismissedMemory = false;
 
@@ -10,7 +10,7 @@ export function readIntroDismissed() {
   if (typeof window === "undefined") return false;
 
   try {
-    const dismissed = sessionStorage.getItem(INTRO_SESSION_KEY) === "1";
+    const dismissed = localStorage.getItem(INTRO_SESSION_KEY) === "1";
     if (dismissed) introDismissedMemory = true;
     return dismissed;
   } catch {
@@ -24,9 +24,8 @@ export function markIntroDismissed() {
   if (typeof window === "undefined") return;
 
   try {
-    sessionStorage.setItem(INTRO_SESSION_KEY, "1");
+    localStorage.setItem(INTRO_SESSION_KEY, "1");
   } catch {
     // Ignore storage failures; the in-memory flag still prevents remount flicker.
   }
 }
-

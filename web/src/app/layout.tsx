@@ -29,6 +29,7 @@ const caps = Cinzel({
 
 const accent = IM_Fell_English({
   variable: "--font-accent",
+
   subsets: ["latin"],
   weight: ["400"],
   style: ["normal", "italic"],
