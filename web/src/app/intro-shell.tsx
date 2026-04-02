@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { markIntroDismissed, readIntroDismissed } from "./intro-session";
 import CathedralIntroOverlay from "@/components/intro/cathedral-intro-overlay";
 
 export default function IntroShell({
@@ -9,11 +8,10 @@ export default function IntroShell({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [opened, setOpened] = useState(() => readIntroDismissed());
+  const [opened, setOpened] = useState(false);
 
   const handleOpened = useCallback(() => {
     setOpened(true);
-    markIntroDismissed();
   }, []);
 
   return (

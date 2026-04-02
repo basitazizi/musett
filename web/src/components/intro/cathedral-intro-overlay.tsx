@@ -2,7 +2,6 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
-import { markIntroDismissed } from "@/app/intro-session";
 import CathedralPanelArt from "./cathedral-panel-art";
 
 type Props = {
@@ -31,8 +30,6 @@ export default function CathedralIntroOverlay({ onOpened }: Props) {
 
   const handleEnter = () => {
     if (phase !== "closed") return;
-    // Persist immediately so dev remounts cannot bring the intro back mid-transition.
-    markIntroDismissed();
     setPhase("opening");
   };
 
