@@ -550,6 +550,86 @@
             .anna-stat{border-right:none;border-bottom:1px solid rgba(248,245,240,.07)}
             .footer-top{grid-template-columns:1fr}
         }
+
+        /* ═══════════════════════════════ CATHEDRAL OVERLAY ═══════════════════════════════ */
+        #cath-overlay{
+            position:fixed;inset:0;z-index:99999;
+            display:flex;overflow:hidden;
+            background:#000;
+        }
+        #cath-overlay.opening .cath-left{ transform:translateX(-101%); }
+        #cath-overlay.opening .cath-right{ transform:translateX(101%); }
+        #cath-overlay.opening .cath-center{ opacity:0;pointer-events:none; }
+        #cath-overlay.opening .cath-glow{ opacity:1; }
+        #cath-overlay.done{ display:none; }
+
+        .cath-panel{
+            width:50%;height:100%;position:relative;flex-shrink:0;
+            transition:transform 2s cubic-bezier(.77,0,.175,1);
+            overflow:hidden;
+        }
+        .cath-panel svg{ width:100%;height:100%;display:block; }
+
+        .cath-glow{
+            position:absolute;inset:0;z-index:2;pointer-events:none;
+            background:radial-gradient(ellipse at center,rgba(155,26,26,.18) 0%,transparent 70%);
+            opacity:0;transition:opacity 1.5s ease .4s;
+        }
+
+        .cath-center{
+            position:fixed;top:50%;left:50%;
+            transform:translate(-50%,-50%);
+            text-align:center;z-index:100001;
+            transition:opacity .6s ease;
+            display:flex;flex-direction:column;align-items:center;gap:22px;
+        }
+        .cath-sigil{
+            width:64px;height:64px;
+            animation:cath-pulse 3s ease-in-out infinite;
+        }
+        @keyframes cath-pulse{
+            0%,100%{opacity:.7;transform:scale(1);}
+            50%{opacity:1;transform:scale(1.08);}
+        }
+        .cath-brand{
+            font-family:'Cinzel Decorative',serif;
+            font-size:clamp(13px,2vw,22px);
+            letter-spacing:4px;color:#f8f5f0;
+            text-shadow:0 0 30px rgba(155,26,26,.9),0 0 60px rgba(155,26,26,.5);
+        }
+        .cath-sub{
+            font-family:'IM Fell English',serif;
+            font-style:italic;font-size:clamp(11px,1.3vw,16px);
+            color:rgba(248,245,240,.5);letter-spacing:2px;
+        }
+        #open-btn{
+            font-family:'Cinzel',serif;font-size:clamp(10px,1.2vw,14px);
+            letter-spacing:3px;text-transform:uppercase;
+            color:#f8f5f0;background:transparent;
+            border:1px solid rgba(155,26,26,.7);
+            padding:16px 36px;cursor:pointer;
+            position:relative;overflow:hidden;
+            transition:all .4s ease;
+            margin-top:8px;
+        }
+        #open-btn::before{
+            content:'';position:absolute;inset:0;
+            background:rgba(155,26,26,.15);
+            transform:scaleX(0);transform-origin:left;
+            transition:transform .4s ease;
+        }
+        #open-btn:hover{ border-color:var(--red2);color:#fff;box-shadow:0 0 20px rgba(155,26,26,.4); }
+        #open-btn:hover::before{ transform:scaleX(1); }
+        .cath-ornament{
+            color:rgba(155,26,26,.6);font-size:20px;letter-spacing:8px;
+        }
+
+        /* dust particle canvas */
+        #cath-dust{
+            position:fixed;inset:0;z-index:100000;pointer-events:none;
+            opacity:0;transition:opacity .3s ease;
+        }
+        #cath-dust.active{ opacity:1; }
     </style>
 </head>
 <body>
