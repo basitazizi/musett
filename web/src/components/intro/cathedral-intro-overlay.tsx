@@ -249,8 +249,8 @@ export default function CathedralIntroOverlay({ onOpened }: Props) {
           animate={phase === "opening" ? { scale: isDesktop ? 1.03 : 1 } : { scale: 1 }}
           transition={transition}
         >
-          <div className="mx-auto w-[95vw] max-w-none md:w-full md:max-w-[560px]">
-            <div className="relative mx-auto aspect-[0.86/1] max-h-[calc(100svh-1.5rem)] w-full max-w-none [perspective:1800px] md:aspect-[0.72/1] md:max-h-[86svh] md:max-w-[470px]">
+          <div className="mx-auto w-[97vw] max-w-none md:w-full md:max-w-[560px]">
+            <div className="relative mx-auto aspect-[0.88/1] max-h-[calc(100svh-1rem)] w-full max-w-none [perspective:1800px] md:aspect-[0.72/1] md:max-h-[86svh] md:max-w-[470px]">
               <motion.div
                 className="absolute -inset-8 intro-window-halo md:-inset-10"
                 style={WINDOW_MASK_STYLE}
