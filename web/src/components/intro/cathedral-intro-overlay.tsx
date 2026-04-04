@@ -244,13 +244,13 @@ export default function CathedralIntroOverlay({ onOpened }: Props) {
         </div>
 
         <motion.div
-          className="relative z-10 grid min-h-[100svh] w-full place-items-center px-[2.5vw] py-0 md:flex md:h-full md:items-center md:justify-center md:px-6 md:py-0"
+          className="relative z-10 flex min-h-[100svh] w-full items-center justify-center px-[4vw] py-0 md:h-full md:px-6"
           initial={false}
           animate={phase === "opening" ? { scale: isDesktop ? 1.03 : 1 } : { scale: 1 }}
           transition={transition}
         >
-          <div className="mx-auto w-[97vw] max-w-none md:w-full md:max-w-[560px]">
-            <div className="relative mx-auto aspect-[0.88/1] max-h-[calc(100svh-1rem)] w-full max-w-none [perspective:1800px] md:aspect-[0.72/1] md:max-h-[86svh] md:max-w-[470px]">
+          <div className="mx-auto flex w-[92vw] max-w-none items-center justify-center md:w-full md:max-w-[560px]">
+            <div className="relative mx-auto aspect-[0.72/1] max-h-[92svh] w-full max-w-none [perspective:1800px] md:max-h-[86svh] md:max-w-[470px]">
               <motion.div
                 className="absolute -inset-8 intro-window-halo md:-inset-10"
                 style={WINDOW_MASK_STYLE}
@@ -372,7 +372,7 @@ export default function CathedralIntroOverlay({ onOpened }: Props) {
               </div>
 
               <motion.div
-                className="pointer-events-none absolute inset-x-[12%] bottom-[6%] top-[12%] z-30 flex translate-y-[7%] items-center justify-center text-center md:inset-0 md:translate-y-0 md:px-8 md:py-6"
+                className="pointer-events-none absolute inset-x-[12%] bottom-[7%] top-[11%] z-30 flex items-center justify-center text-center md:inset-0 md:px-8 md:py-6"
                 initial={false}
                 animate={
                   phase === "opening"
