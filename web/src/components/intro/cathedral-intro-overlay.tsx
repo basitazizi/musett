@@ -95,9 +95,11 @@ function IntroWindowFrame() {
 function IntroWindowLeafArt({
   mirrored = false,
   tone = "paper",
+  className,
 }: {
   mirrored?: boolean;
   tone?: "paper" | "red";
+  className?: string;
 }) {
   const primary = tone === "red" ? "rgba(159,26,26,0.64)" : "rgba(248,245,240,0.52)";
   const secondary = tone === "red" ? "rgba(109,0,0,0.28)" : "rgba(248,245,240,0.18)";
@@ -107,6 +109,7 @@ function IntroWindowLeafArt({
       className={[
         "absolute inset-0 h-full w-full",
         mirrored ? "scale-x-[-1]" : "",
+        className ?? "",
       ].join(" ")}
       viewBox="0 0 210 660"
       fill="none"
@@ -137,6 +140,7 @@ export default function CathedralIntroOverlay({ onOpened }: Props) {
   const descId = useId();
 
   const [phase, setPhase] = useState<"closed" | "opening" | "fading">("closed");
+  const [isDesktop, setIsDesktop] = useState(false);
   const openedOnceRef = useRef(false);
 
   const transition = useMemo(
@@ -160,6 +164,16 @@ export default function CathedralIntroOverlay({ onOpened }: Props) {
   };
 
   // Synchronize: doors open -> overlay fades -> parent unmounts this component.
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 768px)");
+    const syncViewport = () => setIsDesktop(media.matches);
+
+    syncViewport();
+    media.addEventListener("change", syncViewport);
+
+    return () => media.removeEventListener("change", syncViewport);
+  }, []);
+
   useEffect(() => {
     if (phase !== "opening") return;
     const ms = reduceMotion ? 10 : Math.round(OPEN_DURATION_S * 1000);
@@ -185,7 +199,7 @@ export default function CathedralIntroOverlay({ onOpened }: Props) {
     <>
       <motion.div
         className={[
-          "fixed inset-0 z-50 overflow-hidden bg-black text-[var(--paper)]",
+          "fixed inset-0 z-50 overflow-x-hidden overflow-y-auto bg-black text-[var(--paper)] md:overflow-hidden",
           phase === "fading" ? "pointer-events-none" : "",
         ].join(" ")}
         aria-labelledby={labelId}
@@ -203,7 +217,7 @@ export default function CathedralIntroOverlay({ onOpened }: Props) {
           initial={false}
           animate={
             phase === "opening"
-              ? { opacity: 0.76, scale: 1.04 }
+              ? { opacity: 0.76, scale: isDesktop ? 1.04 : 1 }
               : { opacity: 1, scale: 1 }
           }
           transition={{
@@ -230,22 +244,22 @@ export default function CathedralIntroOverlay({ onOpened }: Props) {
         </div>
 
         <motion.div
-          className="relative z-10 flex h-full items-center justify-center px-6"
+          className="relative z-10 flex min-h-[100svh] w-full items-center justify-center px-[2.5vw] py-5 md:h-full md:px-6 md:py-0"
           initial={false}
-          animate={phase === "opening" ? { scale: 1.03 } : { scale: 1 }}
+          animate={phase === "opening" ? { scale: isDesktop ? 1.03 : 1 } : { scale: 1 }}
           transition={transition}
         >
-          <div className="w-full max-w-[520px]">
-            <div className="relative mx-auto aspect-[0.72/1] w-full max-w-[470px] [perspective:1800px]">
+          <div className="mx-auto flex min-h-[100svh] w-[95vw] max-w-none flex-col justify-center md:min-h-0 md:w-full md:max-w-[560px]">
+            <div className="relative mx-auto aspect-[0.86/1] max-h-[calc(100svh-2rem)] w-full max-w-none [perspective:1800px] md:aspect-[0.72/1] md:max-h-[86svh] md:max-w-[470px]">
               <motion.div
-                className="absolute -inset-10 intro-window-halo"
+                className="absolute -inset-8 intro-window-halo md:-inset-10"
                 style={WINDOW_MASK_STYLE}
                 aria-hidden="true"
                 initial={false}
                 animate={
                   phase === "opening"
-                    ? { opacity: 1, scale: 1.18 }
-                    : { opacity: 0.18, scale: 0.94 }
+                    ? { opacity: 1, scale: isDesktop ? 1.18 : 1 }
+                    : { opacity: 0.18, scale: isDesktop ? 0.94 : 1 }
                 }
                 transition={transition}
               />
@@ -259,8 +273,8 @@ export default function CathedralIntroOverlay({ onOpened }: Props) {
                   initial={false}
                   animate={
                     phase === "opening"
-                      ? { opacity: 0.58, scale: 1.04 }
-                      : { opacity: 0.04, scale: 0.9 }
+                      ? { opacity: 0.58, scale: isDesktop ? 1.04 : 1 }
+                      : { opacity: 0.04, scale: isDesktop ? 0.9 : 1 }
                   }
                   transition={transition}
                 />
@@ -282,7 +296,7 @@ export default function CathedralIntroOverlay({ onOpened }: Props) {
                         ? {
                             x: reduceMotion ? "-96%" : "-84%",
                             rotateY: reduceMotion ? 0 : -34,
-                            scale: reduceMotion ? 1 : 0.99,
+                            scale: reduceMotion || !isDesktop ? 1 : 0.99,
                           }
                         : {
                             x: 0,
@@ -300,7 +314,7 @@ export default function CathedralIntroOverlay({ onOpened }: Props) {
                         aria-hidden="true"
                       />
                       <IntroWindowLeafArt />
-                      <IntroWindowLeafArt tone="red" />
+                      <IntroWindowLeafArt tone="red" className="hidden md:block" />
                     </div>
                   </motion.div>
 
@@ -312,7 +326,7 @@ export default function CathedralIntroOverlay({ onOpened }: Props) {
                         ? {
                             x: reduceMotion ? "96%" : "84%",
                             rotateY: reduceMotion ? 0 : 34,
-                            scale: reduceMotion ? 1 : 0.99,
+                            scale: reduceMotion || !isDesktop ? 1 : 0.99,
                           }
                         : {
                             x: 0,
@@ -330,7 +344,7 @@ export default function CathedralIntroOverlay({ onOpened }: Props) {
                         aria-hidden="true"
                       />
                       <IntroWindowLeafArt mirrored />
-                      <IntroWindowLeafArt mirrored tone="red" />
+                      <IntroWindowLeafArt mirrored tone="red" className="hidden md:block" />
                     </div>
                   </motion.div>
                 </div>
@@ -348,7 +362,7 @@ export default function CathedralIntroOverlay({ onOpened }: Props) {
                   initial={false}
                   animate={
                     phase === "opening"
-                      ? { opacity: 0, scale: 0.88 }
+                      ? { opacity: 0, scale: isDesktop ? 0.88 : 1 }
                       : { opacity: 1, scale: 1 }
                   }
                   transition={{ duration: reduceMotion ? 0.01 : 0.42, ease: "easeInOut" }}
@@ -358,46 +372,48 @@ export default function CathedralIntroOverlay({ onOpened }: Props) {
               </div>
 
               <motion.div
-                className="absolute inset-0 z-30 flex items-center justify-center px-8 text-center pointer-events-none"
+                className="pointer-events-none absolute inset-x-[12%] bottom-[6%] top-[12%] z-30 flex translate-y-[7%] items-center justify-center text-center md:inset-0 md:translate-y-0 md:px-8 md:py-6"
                 initial={false}
                 animate={
                   phase === "opening"
-                    ? { opacity: 0, scale: 0.96, y: 10 }
+                    ? { opacity: 0, scale: isDesktop ? 0.96 : 1, y: isDesktop ? 10 : 6 }
                     : { opacity: 1, scale: 1, y: 0 }
                 }
                 transition={contentTransition}
               >
-                <div className="pointer-events-auto max-w-[310px] pt-[5.5rem] sm:max-w-[340px] sm:pt-[6.2rem]">
-                  <p className="font-[family-name:var(--font-caps)] text-[9px] tracking-[0.48em] text-[#8B0000] sm:text-[10px]">
-                    SACRED INK ATELIER
-                  </p>
-                  <h1
-                    id={labelId}
-                    className="mt-5 font-[family-name:var(--font-display)] text-[34px] leading-[0.95] tracking-tight text-[color:rgba(248,245,240,0.98)] drop-shadow-[0_10px_40px_rgba(0,0,0,0.7)] sm:text-[50px]"
-                  >
-                    Welcome to YourMuse Tattoo
-                  </h1>
-                  <p
-                    id={descId}
-                    className="mx-auto mt-6 max-w-[260px] font-[family-name:var(--font-accent)] text-[15px] italic leading-7 text-[color:rgba(248,245,240,0.88)] sm:max-w-[280px]"
-                  >
-                    Where the body becomes the canvas
-                  </p>
+                <div className="pointer-events-auto flex h-full w-full flex-col items-center justify-between gap-4 overflow-hidden text-center md:max-w-[340px] md:justify-center md:gap-0 md:px-0 md:pt-[6.2rem]">
+                  <div className="flex w-full flex-col items-center gap-3">
+                    <p className="font-[family-name:var(--font-caps)] text-[8px] tracking-[0.36em] text-[#8B0000] md:text-[10px] md:tracking-[0.42em]">
+                      SACRED INK ATELIER
+                    </p>
+                    <h1
+                      id={labelId}
+                      className="max-w-[8.6ch] text-balance font-[family-name:var(--font-display)] text-[clamp(1.75rem,7.4vw,2.45rem)] leading-[1.04] tracking-tight text-[color:rgba(248,245,240,0.98)] drop-shadow-[0_10px_40px_rgba(0,0,0,0.7)] md:mt-5 md:max-w-[12ch] md:text-[50px] md:leading-[0.95]"
+                    >
+                      Welcome to YourMuse Tattoo
+                    </h1>
+                    <p
+                      id={descId}
+                      className="mx-auto max-w-[14rem] text-balance font-[family-name:var(--font-accent)] text-[13px] italic leading-[1.8] text-[color:rgba(248,245,240,0.88)] md:mt-6 md:max-w-[280px] md:text-[15px] md:leading-7"
+                    >
+                      Where the body becomes the canvas
+                    </p>
+                  </div>
 
-                  <div className="mt-10 flex items-center justify-center">
+                  <div className="flex w-full flex-col items-center gap-3 pb-[2%]">
                     <button
                       type="button"
                       onClick={handleEnter}
-                      className="group relative inline-flex min-h-[46px] items-center justify-center border border-[color:rgba(248,245,240,0.3)] bg-black/42 px-10 py-3.5 font-[family-name:var(--font-caps)] text-[11px] tracking-[0.45em] text-[var(--paper)] transition-all duration-300 active:scale-[0.98] hover:border-[#8B0000]/82 hover:text-[var(--paper)] hover:shadow-[0_0_34px_rgba(139,0,0,0.34)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8B0000]/70"
+                      className="group relative z-10 inline-flex min-h-[52px] w-full max-w-[15.5rem] touch-manipulation items-center justify-center border border-[color:rgba(248,245,240,0.36)] bg-black/48 px-7 py-4 font-[family-name:var(--font-caps)] text-[11px] tracking-[0.42em] text-[var(--paper)] transition-all duration-300 active:scale-[0.98] active:border-[#8B0000]/88 active:shadow-[0_0_34px_rgba(139,0,0,0.34)] hover:border-[#8B0000]/82 hover:text-[var(--paper)] hover:shadow-[0_0_34px_rgba(139,0,0,0.34)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8B0000]/70 md:min-h-[46px] md:w-auto md:max-w-none md:px-10 md:py-3 md:tracking-[0.45em]"
                     >
                       <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-active:opacity-100 cathedral-button-glow" />
                       <span className="relative">Enter</span>
                     </button>
-                  </div>
 
-                  <p className="mt-10 text-[10px] tracking-[0.34em] text-[color:rgba(248,245,240,0.32)] sm:text-[11px]">
-                    Click Enter to open the window
-                  </p>
+                    <p className="max-w-[13.5rem] text-[9px] leading-[1.7] tracking-[0.22em] text-[color:rgba(248,245,240,0.32)] md:mt-10 md:max-w-[18rem] md:text-[11px] md:leading-5 md:tracking-[0.34em]">
+                      Click Enter to open the window
+                    </p>
+                  </div>
                 </div>
               </motion.div>
 
