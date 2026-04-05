@@ -381,36 +381,36 @@ export default function CathedralIntroOverlay({ onOpened }: Props) {
                 }
                 transition={contentTransition}
               >
-                <div className="pointer-events-auto flex h-full w-full flex-col items-center justify-between gap-4 overflow-hidden text-center md:max-w-[340px] md:justify-center md:gap-0 md:px-0 md:pt-[6.2rem]">
-                  <div className="flex w-full flex-col items-center gap-3">
+                <div className="pointer-events-auto flex h-full w-full flex-col items-center justify-center gap-5 overflow-hidden px-1 py-[3.8rem] text-center md:max-w-[340px] md:gap-0 md:px-0 md:py-0 md:pt-[6.2rem]">
+                  <div className="flex w-full max-w-[15rem] flex-col items-center gap-2.5 md:max-w-none md:gap-3">
                     <p className="font-[family-name:var(--font-caps)] text-[8px] tracking-[0.36em] text-[#8B0000] md:text-[10px] md:tracking-[0.42em]">
                       SACRED INK ATELIER
                     </p>
                     <h1
                       id={labelId}
-                      className="max-w-[8.6ch] text-balance font-[family-name:var(--font-display)] text-[clamp(1.75rem,7.4vw,2.45rem)] leading-[1.04] tracking-tight text-[color:rgba(248,245,240,0.98)] drop-shadow-[0_10px_40px_rgba(0,0,0,0.7)] md:mt-5 md:max-w-[12ch] md:text-[50px] md:leading-[0.95]"
+                      className="max-w-[8.2ch] text-balance font-[family-name:var(--font-display)] text-[clamp(1.45rem,6.3vw,1.95rem)] leading-[0.96] tracking-tight text-[color:rgba(248,245,240,0.98)] drop-shadow-[0_10px_40px_rgba(0,0,0,0.7)] md:mt-5 md:max-w-[12ch] md:text-[50px] md:leading-[0.95]"
                     >
                       Welcome to YourMuse Tattoo
                     </h1>
                     <p
                       id={descId}
-                      className="mx-auto max-w-[14rem] text-balance font-[family-name:var(--font-accent)] text-[13px] italic leading-[1.8] text-[color:rgba(248,245,240,0.88)] md:mt-6 md:max-w-[280px] md:text-[15px] md:leading-7"
+                      className="mx-auto max-w-[12.8rem] text-balance font-[family-name:var(--font-accent)] text-[11px] italic leading-[1.7] text-[color:rgba(248,245,240,0.88)] md:mt-6 md:max-w-[280px] md:text-[15px] md:leading-7"
                     >
                       Where the body becomes the canvas
                     </p>
                   </div>
 
-                  <div className="flex w-full flex-col items-center gap-3 pb-[2%]">
+                  <div className="flex w-full max-w-[15rem] flex-col items-center gap-3 pb-[1%] md:max-w-none md:pb-[2%]">
                     <button
                       type="button"
                       onClick={handleEnter}
-                      className="group relative z-10 inline-flex min-h-[52px] w-full max-w-[15.5rem] touch-manipulation items-center justify-center border border-[color:rgba(248,245,240,0.36)] bg-black/48 px-7 py-4 font-[family-name:var(--font-caps)] text-[11px] tracking-[0.42em] text-[var(--paper)] transition-all duration-300 active:scale-[0.98] active:border-[#8B0000]/88 active:shadow-[0_0_34px_rgba(139,0,0,0.34)] hover:border-[#8B0000]/82 hover:text-[var(--paper)] hover:shadow-[0_0_34px_rgba(139,0,0,0.34)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8B0000]/70 md:min-h-[46px] md:w-auto md:max-w-none md:px-10 md:py-3 md:tracking-[0.45em]"
+                      className="group relative z-10 inline-flex min-h-[50px] w-full max-w-[15rem] touch-manipulation items-center justify-center border border-[color:rgba(248,245,240,0.36)] bg-black/48 px-6 py-4 font-[family-name:var(--font-caps)] text-[10px] tracking-[0.36em] text-[var(--paper)] transition-all duration-300 active:scale-[0.98] active:border-[#8B0000]/88 active:shadow-[0_0_34px_rgba(139,0,0,0.34)] hover:border-[#8B0000]/82 hover:text-[var(--paper)] hover:shadow-[0_0_34px_rgba(139,0,0,0.34)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8B0000]/70 md:min-h-[46px] md:w-auto md:max-w-none md:px-10 md:py-3 md:text-[11px] md:tracking-[0.45em]"
                     >
                       <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-active:opacity-100 cathedral-button-glow" />
                       <span className="relative">Enter</span>
                     </button>
 
-                    <p className="max-w-[13.5rem] text-[9px] leading-[1.7] tracking-[0.22em] text-[color:rgba(248,245,240,0.32)] md:mt-10 md:max-w-[18rem] md:text-[11px] md:leading-5 md:tracking-[0.34em]">
+                    <p className="max-w-[12.5rem] text-[8px] leading-[1.7] tracking-[0.18em] text-[color:rgba(248,245,240,0.32)] md:mt-10 md:max-w-[18rem] md:text-[11px] md:leading-5 md:tracking-[0.34em]">
                       Click Enter to open the window
                     </p>
                   </div>

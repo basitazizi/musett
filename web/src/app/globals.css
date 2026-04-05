@@ -21,9 +21,8 @@
 
 body {
   background:
-    radial-gradient(900px 700px at 50% -10%, rgba(139, 0, 0, 0.22), transparent 55%),
-    radial-gradient(850px 650px at 20% 110%, rgba(248, 245, 240, 0.06), transparent 60%),
-    linear-gradient(180deg, #030303, #050505 45%, #030303);
+    radial-gradient(720px 520px at 50% 18%, rgba(139, 0, 0, 0.14), transparent 58%),
+    linear-gradient(180deg, #020202, #080202 44%, #020202 100%);
   color: var(--paper);
   font-family: var(--font-serif), serif;
   overflow-x: hidden;
@@ -76,8 +75,50 @@ body::after {
 
 .cathedral-title-halo {
   background:
-    radial-gradient(circle at 50% 48%, rgba(255, 247, 238, 0.2), rgba(255, 247, 238, 0.1) 20%, rgba(159, 26, 26, 0.14) 42%, transparent 72%);
-  filter: blur(24px);
+    radial-gradient(circle at 50% 48%, rgba(255, 247, 238, 0.16), rgba(255, 247, 238, 0.06) 24%, rgba(159, 26, 26, 0.14) 52%, transparent 76%);
+  filter: blur(28px);
+}
+
+.hero-panel {
+  border: 1px solid rgba(248, 245, 240, 0.12);
+  background:
+    linear-gradient(180deg, rgba(18, 12, 12, 0.7), rgba(8, 8, 8, 0.84)),
+    radial-gradient(circle at 50% 0%, rgba(159, 26, 26, 0.08), transparent 54%);
+  box-shadow:
+    0 28px 60px rgba(0, 0, 0, 0.36),
+    inset 0 0 0 1px rgba(248, 245, 240, 0.03);
+  backdrop-filter: blur(12px);
+}
+
+.hero-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 24%),
+    radial-gradient(circle at 50% 24%, rgba(255, 255, 255, 0.03), transparent 36%);
+  pointer-events: none;
+}
+
+.hero-center-line {
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(248, 245, 240, 0.14) 16%,
+    rgba(248, 245, 240, 0.1) 76%,
+    transparent
+  );
+  box-shadow: 0 0 18px rgba(248, 245, 240, 0.08);
+}
+
+.hero-breathe-glow {
+  animation: heroBreathe 8s ease-in-out infinite;
+}
+
+.hero-fade-up {
+  opacity: 0;
+  animation: heroFadeUp 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .cathedral-section-shell {
@@ -177,20 +218,38 @@ body::after {
   opacity: 0.95;
 }
 
+.candle-wall-glow {
+  background:
+    radial-gradient(circle at 50% 72%, rgba(255, 231, 182, 0.2), rgba(139, 0, 0, 0.08) 36%, transparent 74%);
+  filter: blur(18px);
+}
+
 .candle-aura {
   background:
-    radial-gradient(circle, rgba(255, 219, 157, 0.18), rgba(159, 26, 26, 0.08) 44%, transparent 72%);
-  filter: blur(12px);
+    radial-gradient(circle, rgba(255, 240, 196, 0.34), rgba(255, 181, 85, 0.18) 34%, rgba(139, 0, 0, 0.08) 62%, transparent 78%);
+  filter: blur(10px);
+}
+
+.cathedral-candle-pool {
+  background:
+    radial-gradient(circle, rgba(255, 212, 148, 0.24), rgba(139, 0, 0, 0.08) 42%, transparent 76%);
+  filter: blur(16px);
 }
 
 .candle-flame {
   background:
-    radial-gradient(circle at 50% 24%, rgba(255, 255, 255, 0.92), rgba(255, 232, 167, 0.94) 34%, rgba(255, 146, 58, 0.78) 62%, rgba(159, 26, 26, 0.34) 100%);
+    radial-gradient(circle at 50% 22%, rgba(255, 252, 244, 0.98), rgba(255, 234, 173, 0.98) 26%, rgba(255, 170, 66, 0.88) 58%, rgba(168, 38, 0, 0.38) 100%);
   box-shadow:
-    0 0 22px rgba(255, 186, 92, 0.4),
-    0 0 38px rgba(159, 26, 26, 0.18);
+    0 0 18px rgba(255, 198, 106, 0.42),
+    0 0 36px rgba(159, 26, 26, 0.16);
   transform-origin: 50% 100%;
-  animation: candleFlicker 2.6s ease-in-out infinite;
+  animation: candleFlicker 4.8s ease-in-out infinite;
+}
+
+.candle-flame-core {
+  background:
+    radial-gradient(circle at 50% 28%, rgba(255, 255, 255, 0.98), rgba(255, 245, 217, 0.94) 52%, rgba(255, 214, 137, 0.24) 100%);
+  box-shadow: 0 0 8px rgba(255, 248, 220, 0.45);
 }
 
 .intro-window-light {
@@ -238,19 +297,19 @@ body::after {
 
 @keyframes candleFlicker {
   0% {
-    transform: translateX(-50%) scale(1) rotate(-2deg);
-    opacity: 0.92;
+    transform: scale(1) rotate(-1deg);
+    opacity: 0.94;
   }
   25% {
-    transform: translateX(-50%) scale(1.05, 0.96) rotate(1deg);
+    transform: scale(1.03, 0.98) rotate(0.7deg);
     opacity: 1;
   }
   55% {
-    transform: translateX(-50%) scale(0.96, 1.04) rotate(-1deg);
-    opacity: 0.9;
+    transform: scale(0.98, 1.02) rotate(-0.8deg);
+    opacity: 0.92;
   }
   100% {
-    transform: translateX(-50%) scale(1.02, 0.98) rotate(2deg);
+    transform: scale(1.01, 0.99) rotate(1deg);
     opacity: 0.96;
   }
 }
@@ -264,6 +323,32 @@ body::after {
   }
   100% {
     transform: translate3d(-8px, -48px, 0);
+  }
+}
+
+@keyframes heroFadeUp {
+  0% {
+    transform: translate3d(0, 22px, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes heroBreathe {
+  0% {
+    transform: scale(0.98);
+    opacity: 0.72;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.99);
+    opacity: 0.78;
   }
 }
 
@@ -317,5 +402,9 @@ body::after {
   .cathedral-title-halo {
     height: 190px;
     width: 92vw;
+  }
+
+  .hero-panel {
+    border-radius: 28px;
   }
 }
